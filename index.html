@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMCIA - Revista Mexicana de Ciencia e Ingeniería Aplicada</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Paleta Dark UI */
+            --bg-dark: #070913;
+            --bg-nav: rgba(20, 25, 40, 0.6);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            /* Degradados y color oro */
+            --gold-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --title-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --gold-main: #d4af37;
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+
+        /* Variables adicionales usadas por ambos modos */
+        :root {
+            --heading-main: #ffffff;
+            --card-bg: rgba(15, 20, 35, 0.6);
+            --card-bg-strong: linear-gradient(145deg, rgba(20, 25, 40, 0.8), rgba(15, 20, 35, 0.9));
+            --footer-bg: rgba(0,0,0,0.6);
+            --field-bg: rgba(0,0,0,0.3);
+            --shadow-soft: rgba(0,0,0,0.5);
+            --banner-edge-opacity: 1;
+            --banner-overlay: rgba(7, 9, 19, 0.55);
+            --banner-overlay-blend: multiply;
+        }
+
+        /* Modo día: fondo blanco/azulado con dorado más contrastante */
+        body.light-mode {
+            --bg-dark: #f7fbff;
+            --bg-nav: rgba(255, 255, 255, 0.82);
+            --text-main: #1f2d3d;
+            --text-muted: #526475;
+            --heading-main: #10243a;
+            --gold-main: #b38728;
+            --title-gradient: linear-gradient(90deg, #7f5a14 0%, #b38728 35%, #d0a83f 58%, #8f6518 100%);
+            --glass-bg: rgba(13, 74, 118, 0.045);
+            --glass-border: rgba(18, 78, 120, 0.16);
+            --card-bg: rgba(255, 255, 255, 0.74);
+            --card-bg-strong: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(240,247,255,0.88));
+            --footer-bg: rgba(255,255,255,0.82);
+            --field-bg: rgba(255,255,255,0.76);
+            --shadow-soft: rgba(14, 50, 78, 0.16);
+            --banner-overlay: rgba(255,255,255,0.30);
+            --banner-overlay-blend: normal;
+        }
+
+        body {
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-dark);
+            overflow-x: hidden;
+        }
+
+        /* --- LÓGICA DE IDIOMAS (CSS) --- */
+        html[lang="es"] .lang-en { display: none !important; }
+        html[lang="en"] .lang-es { display: none !important; }
+
+        /* --- FONDOS Y EFECTO LUCIÉRNAGAS --- */
+        .ambient-background {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2; background: radial-gradient(circle at 50% 0%, #151c33 0%, var(--bg-dark) 70%);
+        }
+
+        #fireflies-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; pointer-events: none; overflow: hidden;
+        }
+
+        .firefly {
+            position: absolute; border-radius: 50%;
+            box-shadow: 0 0 8px currentColor, 0 0 16px currentColor; opacity: 0;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(var(--move-x), var(--move-y)); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.05; transform: scale(0.8); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+
+        /* --- NAVEGACIÓN FLOTANTE PRINCIPAL --- */
+        .floating-nav {
+            position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%);
+            background: var(--bg-nav); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 40px;
+            padding: 0.5rem 1rem; display: flex; gap: 0.5rem; z-index: 100;
+            box-shadow: 0 10px 30px var(--shadow-soft); max-width: 95vw; overflow-x: auto; white-space: nowrap;
+        }
+
+        .nav-link {
+            color: var(--text-main); text-decoration: none; padding: 0.6rem 1.2rem;
+            border-radius: 30px; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; border: 1px solid transparent;
+        }
+        .nav-link:hover { background: var(--glass-bg); border-color: rgba(255,255,255,0.2); box-shadow: 0 0 15px rgba(255,255,255,0.05); color: var(--gold-main); }
+
+        /* --- BOTÓN DE IDIOMA --- */
+        .language-toggle {
+            position: fixed; top: 1.5rem; right: 2rem; z-index: 100;
+            background: var(--bg-nav); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            display: flex; padding: 0.25rem; box-shadow: 0 10px 30px var(--shadow-soft);
+        }
+        .lang-btn {
+            background: transparent; color: var(--text-muted); border: none; padding: 0.4rem 0.8rem;
+            border-radius: 20px; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .lang-btn.active { background: rgba(212, 175, 55, 0.15); color: var(--gold-main); }
+
+        .lang-btn:hover:not(.active) { color: var(--heading-main); }
+
+        /* --- BOTÓN DE MODO DÍA / NOCHE --- */
+        .theme-toggle {
+            position: fixed; top: 1.5rem; left: 2rem; z-index: 100;
+            background: var(--bg-nav); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            padding: 0.25rem; box-shadow: 0 10px 30px var(--shadow-soft);
+        }
+        .theme-btn {
+            background: rgba(212, 175, 55, 0.12); color: var(--gold-main); border: none;
+            padding: 0.55rem 0.95rem; border-radius: 24px; font-family: 'Inter', sans-serif;
+            font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap;
+        }
+        .theme-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(212, 175, 55, 0.18); }
+
+        /* --- SECCIÓN HERO --- */
+        .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 2rem; position: relative; }
+        
+        /* --- BANNER DE IMAGEN INTEGRADO --- */
+        .hero-banner-container {
+            width: 100vw;
+            height: 35vh; 
+            min-height: 250px;
+            max-height: 400px;
+            margin-top: -2rem; 
+            margin-bottom: 3rem; 
+            position: relative;
+            border-radius: 0;
+            background-image: url('banner.png');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            animation: fadeUp 1s ease forwards;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .hero-banner-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--banner-overlay);
+            opacity: 1; 
+            mix-blend-mode: var(--banner-overlay-blend); 
+            z-index: 1;
+        }
+
+        .hero-banner-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(to right, var(--bg-dark) 0%, transparent 14%, transparent 86%, var(--bg-dark) 100%),
+                linear-gradient(to bottom, var(--bg-dark) 0%, transparent 18%, transparent 82%, var(--bg-dark) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* --- CONTENEDOR LOGO Y TÍTULO --- */
+        .hero-title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: left; 
+        }
+        
+        .hero-logo {
+            width: 180px; /* Logo más grande */
+            height: auto;
+            animation: fadeUp 1s ease forwards;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); 
+        }
+
+        .hero-title-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-subtitle { font-size: 1rem; text-transform: uppercase; letter-spacing: 4px; color: var(--text-muted); margin-bottom: 0.8rem; animation: fadeUp 1s ease forwards; }
+        
+        .hero-title {
+            font-family: 'Playfair Display', serif; font-size: 3.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0; max-width: 1000px;
+            background: var(--title-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: fadeUp 1.2s ease forwards;
+        }
+        
+        .hero-slogan {
+            color: var(--gold-main); font-family: 'Playfair Display', serif; font-size: 1.4rem; letter-spacing: 2px; margin-bottom: 1.5rem; text-transform: uppercase; animation: fadeUp 1.4s ease forwards;
+        }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- CONTENEDORES --- */
+        .content-section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .content-section.visible { opacity: 1; transform: translateY(0); }
+        .section-header { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--heading-main); margin-bottom: 2rem; display: flex; align-items: center; gap: 15px; }
+        .section-header::after { content: ''; height: 1px; flex-grow: 1; background: linear-gradient(to right, var(--glass-border), transparent); }
+
+        /* --- TARJETAS --- */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .glass-card {
+            background: var(--card-bg); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 20px;
+            padding: 2.5rem; position: relative; overflow: hidden; transition: all 0.4s ease;
+        }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 20px 40px var(--shadow-soft), 0 0 30px rgba(212, 175, 55, 0.08); }
+        .card-number { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 800; color: rgba(13, 74, 118, 0.09); position: absolute; top: 10px; right: 20px; z-index: 0; }
+        .card-content { position: relative; z-index: 1; }
+        .issue-badge { display: inline-block; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--gold-main); padding: 0.4rem 1rem; border-radius: 30px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: 1px; text-transform: uppercase; }
+        .article-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; color: var(--heading-main); line-height: 1.4; margin-bottom: 1rem; }
+        .article-authors { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6; }
+
+        /* --- LISTAS ESTILIZADAS --- */
+        .styled-list { list-style: none; padding-left: 0; margin-bottom: 0; }
+        .styled-list li { position: relative; padding-left: 1.8rem; margin-bottom: 1.2rem; color: var(--text-main); font-size: 0.95rem; line-height: 1.6; }
+        .styled-list li strong { color: var(--heading-main); }
+        .styled-list li::before { content: '✦'; position: absolute; left: 0; top: 2px; color: var(--gold-main); font-size: 1rem; }
+        .sub-list { list-style: circle; padding-left: 1.5rem; margin-top: 0.5rem; color: var(--text-muted); }
+        .sub-list li { padding-left: 0.5rem; margin-bottom: 0.5rem; }
+        .sub-list li::before { display: none; }
+
+        .btn-sleek { display: inline-flex; align-items: center; background: transparent; color: var(--heading-main); text-decoration: none; font-size: 0.9rem; font-weight: 500; border-bottom: 1px solid var(--gold-main); padding-bottom: 5px; transition: all 0.3s ease; margin-top: 1rem; cursor: pointer; }
+        .btn-sleek:hover { color: var(--gold-main); gap: 10px; }
+        .btn-glow { display: inline-flex; align-items: center; justify-content: center; background: var(--gold-gradient); color: #070913; padding: 0.8rem 2rem; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: all 0.3s ease; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-glow:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5); color: #000; }
+
+        /* --- COMITÉ EDITORIAL & DIRECTORIO --- */
+        .chief-card { background: var(--card-bg-strong); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 20px; padding: 2.5rem; position: relative; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.05); transition: all 0.4s ease; max-width: 600px; margin: 0 auto 3rem auto; text-align: center; }
+        .chief-card:hover { box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15); transform: translateY(-5px); }
+        
+        .associate-card { background: var(--card-bg); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; text-align: center; }
+        .associate-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        
+        .member-role { color: var(--gold-main); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.8rem; font-weight: 600; }
+        .member-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--heading-main); margin-bottom: 0.5rem; }
+        .associate-card .member-name { font-size: 1.25rem; }
+        .member-inst { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+
+        /* --- PESTAÑAS PARA AUTORES --- */
+        .inner-tabs-container { border-bottom: 1px solid var(--glass-border); display: flex; gap: 1rem; margin-bottom: 2rem; overflow-x: auto; }
+        .inner-tab-btn { background: none; border: none; color: var(--text-muted); font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 500; padding: 1rem 1.5rem; cursor: pointer; transition: all 0.3s ease; border-bottom: 2px solid transparent; white-space: nowrap; }
+        .inner-tab-btn.active { color: var(--heading-main); border-bottom: 2px solid var(--gold-main); }
+        .inner-tab-btn:hover { color: var(--heading-main); background: rgba(255,255,255,0.02); }
+        .inner-tab-content { display: none; animation: fadeUp 0.4s ease forwards; }
+        .inner-tab-content.active { display: block; }
+        
+        .academic-email { font-family: 'Playfair Display', serif; color: var(--gold-main); font-size: 1.3rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; display: inline-block; margin: 1.5rem 0; letter-spacing: 0.5px; }
+        
+        .time-estimate-box { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border); padding: 1.5rem; margin-top: 2rem; border-radius: 12px; color: var(--text-muted); line-height: 1.6; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .time-estimate-box strong { color: var(--heading-main); }
+
+        /* --- BUSCADOR --- */
+        #searchInput { width: 100%; padding: 1.5rem 2rem; font-size: 1.1rem; font-family: 'Inter', sans-serif; background: var(--field-bg); border: 1px solid var(--glass-border); border-radius: 30px; color: var(--text-main); margin-bottom: 2rem; transition: all 0.3s ease; backdrop-filter: blur(10px); }
+        #searchInput:focus { outline: none; border-color: var(--gold-main); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
+
+        /* --- FOOTER Y CONTACTO --- */
+        .footer { background: var(--footer-bg); backdrop-filter: blur(20px); border-top: 1px solid var(--glass-border); padding: 5rem 2rem 2rem; margin-top: 4rem; position: relative; }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; }
+        .contact-item h4 { color: var(--heading-main); font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
+        .contact-item p { color: var(--text-muted); line-height: 1.8; font-size: 0.95rem; }
+
+
+        body:not(.light-mode) .card-number { color: rgba(255,255,255,0.05); }
+        body:not(.light-mode) .article-title,
+        body:not(.light-mode) .section-header,
+        body:not(.light-mode) .member-name,
+        body:not(.light-mode) .styled-list li strong,
+        body:not(.light-mode) .btn-sleek,
+        body:not(.light-mode) .contact-item h4,
+        body:not(.light-mode) .inner-tab-btn.active,
+        body:not(.light-mode) .inner-tab-btn:hover,
+        body:not(.light-mode) .time-estimate-box strong { color: #fff; }
+
+        body.light-mode .ambient-background {
+            background:
+                radial-gradient(circle at 50% 0%, rgba(20, 101, 154, 0.22) 0%, rgba(247, 251, 255, 0.92) 48%, var(--bg-dark) 100%);
+        }
+        body.light-mode .firefly { opacity: 0.25; box-shadow: 0 0 6px currentColor, 0 0 12px currentColor; }
+        body.light-mode .floating-nav,
+        body.light-mode .language-toggle,
+        body.light-mode .theme-toggle,
+        body.light-mode .glass-card,
+        body.light-mode .associate-card,
+        body.light-mode .chief-card,
+        body.light-mode #searchInput,
+        body.light-mode .footer {
+            box-shadow: 0 16px 35px rgba(14, 50, 78, 0.12);
+        }
+        body.light-mode .hero-banner-container { box-shadow: 0 18px 45px rgba(14, 50, 78, 0.18); }
+        body.light-mode .nav-link:hover { background: rgba(13, 74, 118, 0.06); border-color: rgba(197,155,45,0.28); }
+        body.light-mode .issue-badge { background: rgba(197,155,45,0.10); border-color: rgba(197,155,45,0.22); }
+        body.light-mode .btn-glow { color: #10243a; }
+        body.light-mode .hero-logo { filter: drop-shadow(0 10px 18px rgba(179, 135, 40, 0.22)); }
+        body.light-mode .hero-title { text-shadow: 0 1px 1px rgba(16, 36, 58, 0.08); }
+        body.light-mode #searchInput::placeholder { color: #6a7a89; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .hero-slogan { font-size: 1rem; }
+            .section-header { font-size: 2rem; }
+            .floating-nav { top: 1rem; width: 85%; left: 2rem; transform: none; justify-content: flex-start; }
+            .language-toggle { top: 1rem; right: 1rem; }
+            .theme-toggle { top: 4.2rem; left: 1rem; }
+            .theme-btn { padding: 0.45rem 0.75rem; font-size: 0.76rem; }
+            .multi-column-list { grid-template-columns: 1fr !important; }
+            .hero-banner-container { height: 25vh; margin-top: 1rem; }
+            
+            .hero-title-wrapper {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .hero-logo { width: 140px; } /* Ajustado para móviles también */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-background"></div>
+    <div id="fireflies-container"></div>
+
+    <nav class="floating-nav">
+        <a href="#inicio" class="nav-link"><span class="lang-es">Inicio</span><span class="lang-en">Home</span></a>
+        <a href="#acerca" class="nav-link"><span class="lang-es">Acerca de</span><span class="lang-en">About</span></a>
+        <a href="#etica" class="nav-link"><span class="lang-es">Ética</span><span class="lang-en">Ethics</span></a>
+        <a href="#directorio" class="nav-link"><span class="lang-es">Directorio</span><span class="lang-en">Directory</span></a>
+        <a href="#comite" class="nav-link"><span class="lang-es">Comité</span><span class="lang-en">Committee</span></a>
+        <a href="#autores" class="nav-link"><span class="lang-es">Autores</span><span class="lang-en">Authors</span></a>
+        <a href="#publicaciones" class="nav-link"><span class="lang-es">Publicaciones</span><span class="lang-en">Publications</span></a>
+        <a href="#contacto" class="nav-link"><span class="lang-es">Contacto</span><span class="lang-en">Contact</span></a>
+    </nav>
+
+    <div class="theme-toggle">
+        <button id="themeToggle" class="theme-btn" onclick="toggleTheme()" aria-label="Modo día activo. Cambiar a modo noche">
+            ☀️ <span class="lang-es">Modo día</span><span class="lang-en">Day mode</span>
+        </button>
+    </div>
+
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="setLanguage('es', this)">ES</button>
+        <button class="lang-btn" onclick="setLanguage('en', this)">EN</button>
+    </div>
+
+    <section id="inicio" class="hero-section">
+        
+        <div class="hero-banner-container"></div>
+
+        <div class="hero-title-wrapper">
+            <img src="Logo-dia.png" alt="Logo UADY FIQ" class="hero-logo" id="themeLogo">
+            
+            <div class="hero-title-block">
+                <div class="hero-subtitle">
+                    <span class="lang-es">Facultad de Ingeniería Química • UADY</span>
+                    <span class="lang-en">Faculty of Chemical Engineering • UADY</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="lang-es">REVISTA MEXICANA DE CIENCIA<br>E INGENIERÍA APLICADA</span>
+                    <span class="lang-en">MEXICAN JOURNAL OF SCIENCE<br> AND APPLIED ENGINEERING</span>
+                </h1>
+            </div>
+        </div>
+        
+        <p class="hero-slogan">
+            <span class="lang-es">El futuro de la investigación aplicada</span>
+            <span class="lang-en">The future of applied research</span>
+        </p>
+
+        <p style="color: var(--text-muted); max-width: 600px; line-height: 1.8; font-size: 1.1rem;">
+            <span class="lang-es">Plataforma científica de excelencia y acceso abierto para la difusión del conocimiento.</span>
+            <span class="lang-en">Scientific platform of excellence and open access for knowledge dissemination.</span>
+        </p>
+    </section>
+
+    <section id="acerca" class="content-section">
+        <h2 class="section-header">
+            <span class="lang-es">Acerca de la Revista</span><span class="lang-en">About the Journal</span>
+        </h2>
+        <div class="glass-card" style="margin-bottom: 4rem; text-align: center; padding: 3rem 2rem;">
+            <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-main); max-width: 900px; margin: 0 auto;">
+                <span class="lang-es">La <strong style="color: var(--gold-main);">Revista Mexicana de Ciencia e Ingeniería Aplicada (RMCIA)</strong> es una publicación científica de acceso abierto, semestral, editada por la Facultad de Ingeniería Química de la Universidad Autónoma de Yucatán (UADY). Nuestra misión es difundir resultados originales de investigación, revisiones bibliográficas y ensayos científicos en todas las áreas de la ciencia, la ingeniería y la tecnología.</span>
+                <span class="lang-en">The <strong style="color: var(--gold-main);">Mexican Journal of Science and Applied Engineering (RMCIA)</strong> is a biannual, open-access scientific publication edited by the Faculty of Chemical Engineering of the Autonomous University of Yucatan (UADY). Our mission is to disseminate original research results, literature reviews, and scientific essays in all areas of science, engineering, and technology.</span>
+            </p>
+            <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-main); max-width: 900px; margin: 1.5rem auto 0;">
+                <span class="lang-es">Aceptamos contribuciones en <strong>español e inglés</strong>, promoviendo el intercambio académico y la visibilidad internacional de la investigación generada en México e Iberoamérica.</span>
+                <span class="lang-en">We accept contributions in <strong>Spanish and English</strong>, promoting academic exchange and the international visibility of research generated in Mexico and Latin America.</span>
+            </p>
+        </div>
+
+        <h2 class="section-header" style="font-size: 2rem;">
+            <span class="lang-es">Filosofía Editorial</span><span class="lang-en">Editorial Philosophy</span>
+        </h2>
+        <div class="grid-container">
+            <div class="glass-card">
+                <div class="card-number">01</div>
+                <div class="card-content">
+                    <div class="issue-badge"><span class="lang-es">Acceso Abierto</span><span class="lang-en">Open Access</span></div>
+                    <div class="article-title"><span class="lang-es">Ciencia sin Barreras</span><span class="lang-en">Science without Borders</span></div>
+                    <p class="article-authors">
+                        <span class="lang-es">Todos nuestros artículos son de libre acceso bajo licencia Creative Commons, promoviendo la democratización del conocimiento.</span>
+                        <span class="lang-en">All our articles are freely accessible under a Creative Commons license, promoting the democratization of knowledge.</span>
+                    </p>
+                </div>
+            </div>
+            <div class="glass-card">
+                <div class="card-number">02</div>
+                <div class="card-content">
+                    <div class="issue-badge"><span class="lang-es">Rigor Científico</span><span class="lang-en">Scientific Rigor</span></div>
+                    <div class="article-title"><span class="lang-es">Revisión por Pares</span><span class="lang-en">Peer Review</span></div>
+                    <p class="article-authors">
+                        <span class="lang-es">Implementamos un estricto sistema de revisión doble ciego con expertos internacionales para garantizar la más alta calidad.</span>
+                        <span class="lang-en">We implement a strict double-blind review system with international experts to guarantee the highest quality.</span>
+                    </p>
+                </div>
+            </div>
+            <div class="glass-card">
+                <div class="card-number">03</div>
+                <div class="card-content">
+                    <div class="issue-badge"><span class="lang-es">Enfoque Integral</span><span class="lang-en">Integral Approach</span></div>
+                    <div class="article-title"><span class="lang-es">Multidisciplinaria</span><span class="lang-en">Multidisciplinary</span></div>
+                    <p class="article-authors">
+                        <span class="lang-es">Cubrimos todas las áreas de ciencia aplicada, ingeniería y tecnología, fomentando la colaboración interdisciplinaria.</span>
+                        <span class="lang-en">We cover all areas of science, applied engineering, and technology, fostering interdisciplinary collaboration.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="glass-card">
+                <h3 class="article-title" style="color: var(--gold-main); font-size: 1.6rem; margin-bottom: 1.5rem;">
+                    <span class="lang-es">Objetivos</span><span class="lang-en">Objectives</span>
+                </h3>
+                <ul class="styled-list">
+                    <li><span class="lang-es">Difundir investigación científica original y de alta calidad.</span><span class="lang-en">Disseminate original and high-quality scientific research.</span></li>
+                    <li><span class="lang-es">Promover el intercambio académico a nivel internacional.</span><span class="lang-en">Promote academic exchange on an international level.</span></li>
+                    <li><span class="lang-es">Fomentar la colaboración interdisciplinaria y la innovación.</span><span class="lang-en">Foster interdisciplinary collaboration and innovation.</span></li>
+                    <li><span class="lang-es">Alinearse con los Objetivos de Desarrollo Sostenible de la ONU.</span><span class="lang-en">Align with the UN Sustainable Development Goals.</span></li>
+                </ul>
+            </div>
+            <div class="glass-card">
+                <h3 class="article-title" style="color: var(--gold-main); font-size: 1.6rem; margin-bottom: 1.5rem;">
+                    <span class="lang-es">Políticas Editoriales</span><span class="lang-en">Editorial Policies</span>
+                </h3>
+                <ul class="styled-list">
+                    <li><strong><span class="lang-es">Acceso Abierto:</span><span class="lang-en">Open Access:</span></strong> <span class="lang-es">Sin costo de publicación para autores (APC = $0).</span><span class="lang-en">No publication fees for authors (APC = $0).</span></li>
+                    <li><strong><span class="lang-es">Revisión:</span><span class="lang-en">Review:</span></strong> <span class="lang-es">Sistema doble ciego con evaluadores externos.</span><span class="lang-en">Double-blind system with external reviewers.</span></li>
+                    <li><strong><span class="lang-es">Ética:</span><span class="lang-en">Ethics:</span></strong> <span class="lang-es">Adherencia a las directrices del COPE.</span><span class="lang-en">Adherence to COPE guidelines.</span></li>
+                    <li><strong><span class="lang-es">Antiplagio:</span><span class="lang-en">Anti-plagiarism:</span></strong> <span class="lang-es">Evaluación estricta de similitud en manuscritos.</span><span class="lang-en">Strict similarity evaluation software.</span></li>
+                    <li><strong><span class="lang-es">Identificadores Persistentes:</span><span class="lang-en">Persistent Identifiers:</span></strong> <span class="lang-es">Cada artículo recibe un DOI único (en implementación).</span><span class="lang-en">Each article receives a unique DOI (in implementation).</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="glass-card" style="margin-top: 2rem;">
+            <h3 class="article-title" style="color: var(--gold-main); font-size: 1.6rem; margin-bottom: 1rem;">
+                <span class="lang-es">Alcance Temático</span><span class="lang-en">Thematic Scope</span>
+            </h3>
+            <div class="multi-column-list" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <ul class="styled-list">
+                    <li><span class="lang-es">Ingeniería Química y Bioquímica</span><span class="lang-en">Chemical & Biochemical Engineering</span></li>
+                    <li><span class="lang-es">Ciencia e Ingeniería de Alimentos</span><span class="lang-en">Food Science & Engineering</span></li>
+                    <li><span class="lang-es">Biotecnología y Bioprocesos</span><span class="lang-en">Biotechnology & Bioprocesses</span></li>
+                </ul>
+                <ul class="styled-list">
+                    <li><span class="lang-es">Ciencias Ambientales</span><span class="lang-en">Environmental Sciences</span></li>
+                    <li><span class="lang-es">Ciencia de Materiales</span><span class="lang-en">Materials Science</span></li>
+                    <li><span class="lang-es">Ingeniería de Procesos</span><span class="lang-en">Process Engineering</span></li>
+                </ul>
+                <ul class="styled-list">
+                    <li><span class="lang-es">Ingeniería Industrial</span><span class="lang-en">Industrial Engineering</span></li>
+                    <li><span class="lang-es">Energías Renovables</span><span class="lang-en">Renewable Energy</span></li>
+                    <li><span class="lang-es">Nanotecnología</span><span class="lang-en">Nanotechnology</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="etica" class="content-section">
+        <h2 class="section-header">
+            <span class="lang-es">Código de Ética</span><span class="lang-en">Code of Ethics</span>
+        </h2>
+
+        <div class="glass-card" style="margin-bottom: 2rem;">
+            <h3 class="article-title" style="color: var(--gold-main); font-size: 1.6rem; margin-bottom: 1.5rem;">
+                <span class="lang-es">Responsabilidades de la Revista</span><span class="lang-en">Journal Responsibilities</span>
+            </h3>
+            <ul class="styled-list">
+                <li><span class="lang-es">RMCIA se compromete a recibir el artículo enviado, revisar el cumplimiento de los criterios de pertinencia temática y de forma correspondientes al primer filtro editorial. De ser así, enviarlo a revisión con especialistas. Informar al autor/a de correspondencia la fase del proceso, revisar las observaciones de los revisores, emitir dictamen académico y programar la publicación si es aceptado.</span>
+                    <span class="lang-en">RMCIA commits to receiving the submitted article, verifying compliance with thematic relevance and formatting criteria for the first editorial filter. If compliant, send it for review with specialists. Inform the corresponding author of the process phase, review the reviewers' observations, issue an academic decision, and schedule publication if accepted.</span></li>
+                
+                <li><span class="lang-es">RMCIA tiene la responsabilidad de informar al autor/a la fase del proceso de edición correspondiente.</span>
+                    <span class="lang-en">RMCIA is responsible for informing the author of the corresponding editorial phase.</span></li>
+                
+                <li><span class="lang-es">RMCIA mantendrá informado al autor/a en las siguientes fases del proceso editorial:</span>
+                    <span class="lang-en">RMCIA will keep the author informed during the following editorial phases:</span>
+                    <ul class="sub-list">
+                        <li><span class="lang-es">Recepción del original.</span><span class="lang-en">Receipt of the original manuscript.</span></li>
+                        <li><span class="lang-es">Aceptación o rechazo en primer filtro.</span><span class="lang-en">Acceptance or rejection in the first filter.</span></li>
+                        <li><span class="lang-es">Resultados de los dictámenes académicos.</span><span class="lang-en">Results of the academic reviews.</span></li>
+                        <li><span class="lang-es">Estatus en prensa (aceptación para publicación).</span><span class="lang-en">In-press status (acceptance for publication).</span></li>
+                        <li><span class="lang-es">Estatus publicado (publicación en línea).</span><span class="lang-en">Published status (online publication).</span></li>
+                    </ul>
+                </li>
+                
+                <li><span class="lang-es">La publicación de un artículo dependerá exclusivamente de:</span>
+                    <span class="lang-en">The publication of an article will depend exclusively on:</span>
+                    <ul class="sub-list">
+                        <li><span class="lang-es">La concordancia con la temática de RMCIA.</span><span class="lang-en">Concordance with RMCIA's thematic scope.</span></li>
+                        <li><span class="lang-es">El cumplimiento estricto de los requisitos de forma.</span><span class="lang-en">Strict compliance with formatting requirements.</span></li>
+                        <li><span class="lang-es">Los resultados de la evaluación académica de los revisores.</span><span class="lang-en">The results of the reviewers' academic evaluation.</span></li>
+                        <li><span class="lang-es">La satisfacción de las observaciones requeridas.</span><span class="lang-en">Satisfaction of the observations required by reviewers.</span></li>
+                    </ul>
+                </li>
+
+                <li><span class="lang-es">Las decisiones editoriales no se verán afectadas por razones de nacionalidad, etnicidad, posición política o religión de los autores.</span>
+                    <span class="lang-en">Editorial decisions will not be affected by the nationality, ethnicity, political position, or religion of the authors.</span></li>
+                
+                <li><span class="lang-es">RMCIA garantizará que los artículos enviados por los integrantes de sus cuerpos editoriales y revisores serán sometidos a los mismos procesos de evaluación doble ciego.</span>
+                    <span class="lang-en">RMCIA will guarantee that articles submitted by members of its editorial boards and reviewers undergo the same double-blind evaluation processes.</span></li>
+                
+                <li><span class="lang-es">RMCIA se compromete a respetar estrictamente el proceso de dictamen establecido.</span>
+                    <span class="lang-en">RMCIA commits to strictly respecting the established review process.</span></li>
+                
+                <li><span class="lang-es">En caso de inconformidad con los dictámenes, RMCIA solicitará al autor un documento justificando la razón, y lo remitirá al Comité Editorial, quien decidirá lo que procede.</span>
+                    <span class="lang-en">In case of disagreement with the reviews, RMCIA will request a justification document from the author and forward it to the Editorial Committee for a final decision.</span></li>
+                
+                <li><span class="lang-es">Los integrantes de los cuerpos editoriales y dictaminadores se comprometen a no utilizar en sus propios trabajos, materiales inéditos que formen parte de artículos sometidos a RMCIA.</span>
+                    <span class="lang-en">Editorial board members and reviewers commit not to use unpublished materials from articles submitted to RMCIA in their own work.</span></li>
+            </ul>
+        </div>
+
+        <div class="glass-card" style="margin-bottom: 2rem;">
+            <h3 class="article-title" style="color: var(--gold-main); font-size: 1.6rem; margin-bottom: 1.5rem;">
+                <span class="lang-es">Responsabilidades de los Autores</span><span class="lang-en">Authors' Responsibilities</span>
+            </h3>
+            <ul class="styled-list">
+                <li><span class="lang-es">El autor se compromete a que el artículo es un trabajo inédito. Se rechazará si el texto completo ya fue publicado, si usa fragmentos extensos de materiales previos, o si está contenido en memorias publicadas in extenso (impreso o electrónico, en cualquier idioma).</span>
+                    <span class="lang-en">The author commits that the article is an unpublished work. It will be rejected if the full text has been published, uses extensive fragments of previous materials, or is contained in published proceedings in extenso (print or electronic, in any language).</span></li>
+                
+                <li><span class="lang-es">Es responsabilidad del autor/a evitar cualquier conflicto de interés en la publicación de datos y resultados.</span>
+                    <span class="lang-en">It is the author's responsibility to avoid any conflict of interest in the publication of data and results.</span></li>
+                
+                <li><span class="lang-es">El autor deberá citar y referenciar claramente cualquier fragmento tomado de la obra de otro o propia (incluyendo fuentes de datos y figuras). El incumplimiento puede ser considerado plagio y el trabajo será descartado.</span>
+                    <span class="lang-en">The author must clearly cite and reference any fragment taken from another's work or their own (including data sources and figures). Non-compliance may be considered plagiarism, and the work will be discarded.</span></li>
+                
+                <li><span class="lang-es">Se considera una buena práctica establecer los créditos a todas las personas que hayan colaborado en los proyectos de investigación.</span>
+                    <span class="lang-en">It is considered good practice to credit all individuals who collaborated on the research projects.</span></li>
+                
+                <li><span class="lang-es">El uso de materiales no publicados de terceros deberá contar con autorización expresa de los interesados.</span>
+                    <span class="lang-en">The use of unpublished third-party materials requires express authorization from the interested parties.</span></li>
+                
+                <li><span class="lang-es">El autor/a no debe remitir su trabajo a cualquier otra publicación mientras esté sometido en RMCIA. Hacerlo suspenderá el proceso de revisión.</span>
+                    <span class="lang-en">The author must not submit their work to any other publication while it is under review at RMCIA. Doing so will suspend the review process.</span></li>
+                
+                <li><span class="lang-es">El autor acepta en su integridad las normas, criterios y procedimientos editoriales de la Revista.</span>
+                    <span class="lang-en">The author fully accepts the journal's editorial norms, criteria, and procedures.</span></li>
+            </ul>
+        </div>
+
+        <div class="glass-card">
+            <h3 class="article-title" style="color: var(--gold-main); font-size: 1.6rem; margin-bottom: 1.5rem;">
+                <span class="lang-es">Responsabilidades de los Revisores</span><span class="lang-en">Reviewers' Responsibilities</span>
+            </h3>
+            <ul class="styled-list">
+                <li><span class="lang-es">Los revisores definen si un material es publicable o no. Si no lo es, deben proveer razones suficientes para sustentar el rechazo y orientar a los autores para la mejora del texto.</span>
+                    <span class="lang-en">Reviewers define whether a material is publishable or not. If not, they must provide sufficient reasons to support the rejection and guide the authors to improve the text.</span></li>
+                
+                <li><span class="lang-es">Sólo deberán aceptar aquellos textos sobre los que tengan suficiente competencia, experiencia y conocimiento para desarrollar la labor.</span>
+                    <span class="lang-en">They should only accept texts for which they have sufficient competence, experience, and knowledge to carry out the task.</span></li>
+                
+                <li><span class="lang-es">Deberán evitar cualquier conflicto de interés que identifiquen en referencia al texto que les ha sido enviado.</span>
+                    <span class="lang-en">They must avoid any conflict of interest they identify regarding the text sent to them.</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="directorio" class="content-section">
+        <h2 class="section-header">
+            <span class="lang-es">Directorio Institucional</span><span class="lang-en">Institutional Directory</span>
+        </h2>
+
+        <div class="glass-card" style="margin-bottom: 2rem;">
+            <h3 class="article-title" style="color: var(--gold-main); font-size: 1.6rem; margin-bottom: 2rem; text-align: center;">
+                <span class="lang-es">Universidad Autónoma de Yucatán</span><span class="lang-en">Autonomous University of Yucatan</span>
+            </h3>
+            
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <div class="member-role"><span class="lang-es">Rector</span><span class="lang-en">President / Rector</span></div>
+                <div class="member-name" style="font-size: 1.5rem;">Dr. José de Jesús Williams</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center;">
+                <div>
+                    <div class="member-role"><span class="lang-es">Secretaria General</span><span class="lang-en">Secretary General</span></div>
+                    <div class="member-name" style="font-size: 1.1rem;">Dra. Celia Esperanza Rosado Avilés</div>
+                </div>
+                <div>
+                    <div class="member-role"><span class="lang-es">Director General de Desarrollo Académico</span><span class="lang-en">General Director of Academic Development</span></div>
+                    <div class="member-name" style="font-size: 1.1rem;">Mtro. en Ciencias Carlos Alberto Estrada Pinto</div>
+                </div>
+                <div>
+                    <div class="member-role"><span class="lang-es">Coordinador General de Extensión</span><span class="lang-en">General Coordinator of Extension</span></div>
+                    <div class="member-name" style="font-size: 1.1rem;">Dr. Francisco Fernández Repetto</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h3 class="article-title" style="color: var(--gold-main); font-size: 1.6rem; margin-bottom: 2rem; text-align: center;">
+                <span class="lang-es">Facultad de Ingeniería Química</span><span class="lang-en">Faculty of Chemical Engineering</span>
+            </h3>
+            
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <div class="member-role"><span class="lang-es">Directora</span><span class="lang-en">Director / Dean</span></div>
+                <div class="member-name" style="font-size: 1.5rem;">M. en C. María Dalmira Rodríguez Martín</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center;">
+                <div>
+                    <div class="member-role"><span class="lang-es">Secretario Académico</span><span class="lang-en">Academic Secretary</span></div>
+                    <div class="member-name" style="font-size: 1.1rem;">M. en C. Ángel Ramiro Trejo Irigoyen</div>
+                </div>
+                <div>
+                    <div class="member-role"><span class="lang-es">Secretario Administrativo</span><span class="lang-en">Administrative Secretary</span></div>
+                    <div class="member-name" style="font-size: 1.1rem;">IQI. Roger Agustín Bargas Interián</div>
+                </div>
+                <div>
+                    <div class="member-role"><span class="lang-es">Coordinadora de Posgrado e Investigación</span><span class="lang-en">Coordinator of Postgraduate and Research</span></div>
+                    <div class="member-name" style="font-size: 1.1rem;">Dra. Leydi Maribel Carrillo Cocom</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="comite" class="content-section">
+        <h2 class="section-header">
+            <span class="lang-es">Comité Editorial</span><span class="lang-en">Editorial Committee</span>
+        </h2>
+        
+        <div class="chief-card">
+            <div class="member-role"><span class="lang-es">Director en Jefe</span><span class="lang-en">Editor-in-Chief</span></div>
+            <div class="member-name">Dr. Luis Antonio Chel Guerrero</div>
+            <div class="member-inst">
+                <span class="lang-es">Facultad de Ingeniería Química<br>Universidad Autónoma de Yucatán, México</span>
+                <span class="lang-en">Faculty of Chemical Engineering<br>Autonomous University of Yucatan, Mexico</span>
+            </div>
+        </div>
+
+        <h3 class="article-title" style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-muted); text-align: center;">
+            <span class="lang-es">Directores Asociados</span><span class="lang-en">Associate Editors</span>
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div class="associate-card">
+                <div class="member-name">Dr. Sergio Baz Rodríguez</div>
+                <div class="member-inst"><span class="lang-es">Universidad Autónoma de Yucatán, México</span><span class="lang-en">Autonomous University of Yucatan, Mexico</span></div>
+            </div>
+            <div class="associate-card">
+                <div class="member-name">Dr. David Betancur Ancona</div>
+                <div class="member-inst"><span class="lang-es">Universidad Autónoma de Yucatán, México</span><span class="lang-en">Autonomous University of Yucatan, Mexico</span></div>
+            </div>
+            <div class="associate-card">
+                <div class="member-name">Dr. Cristian Carrera Figueiras</div>
+                <div class="member-inst"><span class="lang-es">Universidad Autónoma de Yucatán, México</span><span class="lang-en">Autonomous University of Yucatan, Mexico</span></div>
+            </div>
+            <div class="associate-card">
+                <div class="member-name">Dr. Alejandro Zepeda Pedreguera</div>
+                <div class="member-inst"><span class="lang-es">Universidad Autónoma de Yucatán, México</span><span class="lang-en">Autonomous University of Yucatan, Mexico</span></div>
+            </div>
+            <div class="associate-card">
+                <div class="member-name">Dra. Paulina Martínez Isidro</div>
+                <div class="member-inst"><span class="lang-es">Universidad Autónoma de Yucatán, México</span><span class="lang-en">Autonomous University of Yucatan, Mexico</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="autores" class="content-section">
+        <h2 class="section-header">
+            <span class="lang-es">Para Autores</span><span class="lang-en">For Authors</span>
+        </h2>
+        
+        <div class="glass-card">
+            <div class="inner-tabs-container">
+                <button class="inner-tab-btn active" onclick="switchAuthorTab('tab-tipos', this)">
+                    <span class="lang-es">Tipos de Manuscritos</span><span class="lang-en">Manuscript Types</span>
+                </button>
+                <button class="inner-tab-btn" onclick="switchAuthorTab('tab-envio', this)">
+                    <span class="lang-es">Proceso de Envío</span><span class="lang-en">Submission Process</span>
+                </button>
+                <button class="inner-tab-btn" onclick="switchAuthorTab('tab-formato', this)">
+                    <span class="lang-es">Formato</span><span class="lang-en">Formatting</span>
+                </button>
+            </div>
+
+            <div id="tab-tipos" class="inner-tab-content active">
+                <h3 class="article-title" style="color: var(--gold-main); margin-bottom: 1.5rem;">
+                    <span class="lang-es">Contribuciones Aceptadas</span><span class="lang-en">Accepted Contributions</span>
+                </h3>
+                <ul class="styled-list">
+                    <li><strong><span class="lang-es">Artículos científicos:</span><span class="lang-en">Research articles:</span></strong> <span class="lang-es">Estudios originales con resultados relevantes.</span><span class="lang-en">Original studies with relevant research results.</span></li>
+                    <li><strong><span class="lang-es">Notas de investigación:</span><span class="lang-en">Research notes:</span></strong> <span class="lang-es">Comunicaciones breves con hallazgos parciales.</span><span class="lang-en">Brief communications with partial findings.</span></li>
+                    <li><strong><span class="lang-es">Revisiones bibliográficas:</span><span class="lang-en">Review articles:</span></strong> <span class="lang-es">Análisis crítico de literatura científica actual.</span><span class="lang-en">Critical analysis of current scientific literature.</span></li>
+                    <li><strong><span class="lang-es">Ensayos científicos:</span><span class="lang-en">Scientific essays:</span></strong> <span class="lang-es">Reflexiones argumentadas sobre aspectos teóricos.</span><span class="lang-en">Argued reflections on theoretical or social aspects.</span></li>
+                </ul>
+            </div>
+
+            <div id="tab-envio" class="inner-tab-content">
+                <h3 class="article-title" style="color: var(--gold-main); margin-bottom: 1rem;">
+                    <span class="lang-es">Cómo Enviar su Manuscrito</span><span class="lang-en">How to Submit</span>
+                </h3>
+                <p style="color: var(--text-main);">
+                    <span class="lang-es">Los trabajos deben enviarse por correo electrónico a la siguiente dirección académica:</span>
+                    <span class="lang-en">Manuscripts must be submitted via email to the following academic address:</span>
+                </p>
+                
+                <div class="academic-email">✉ rmcia.mjase@correo.uady.mx</div>
+
+                <ul class="styled-list" style="margin-top: 0.5rem;">
+                    <li><span class="lang-es">El manuscrito debe estar en formato Word (.docx).</span><span class="lang-en">The manuscript must be in Word format (.docx).</span></li>
+                    <li><span class="lang-es">Figuras y tablas en alta resolución (mínimo 300 dpi).</span><span class="lang-en">High-resolution figures and tables (minimum 300 dpi).</span></li>
+                    <li><span class="lang-es">Incluir carta de presentación y declaración de originalidad.</span><span class="lang-en">Include a cover letter and declaration of originality.</span></li>
+                </ul>
+                
+                <div class="time-estimate-box">
+                    <strong><span class="lang-es">Tiempo estimado de respuesta:</span><span class="lang-en">Estimated response time:</span></strong> 
+                    <span class="lang-es">El proceso de revisión por pares toma aproximadamente entre 8 y 12 semanas para una primera decisión.</span>
+                    <span class="lang-en">The peer-review process takes approximately 8 to 12 weeks for a first decision.</span>
+                </div>
+            </div>
+
+            <div id="tab-formato" class="inner-tab-content">
+                <h3 class="article-title" style="color: var(--gold-main); margin-bottom: 1.5rem;">
+                    <span class="lang-es">Formato de Manuscritos</span><span class="lang-en">Manuscript Formatting</span>
+                </h3>
+                <ul class="styled-list">
+                    <li><strong><span class="lang-es">Idioma:</span><span class="lang-en">Language:</span></strong> <span class="lang-es">Español o inglés.</span><span class="lang-en">Spanish or English.</span></li>
+                    <li><strong><span class="lang-es">Resumen:</span><span class="lang-en">Abstract:</span></strong> <span class="lang-es">En ambos idiomas (máx. 250 palabras).</span><span class="lang-en">In both languages (max. 250 words).</span></li>
+                    <li><strong><span class="lang-es">Referencias:</span><span class="lang-en">References:</span></strong> <span class="lang-es">Estilo APA 7ª edición.</span><span class="lang-en">APA Style 7th edition.</span></li>
+                    <li><strong>ORCID:</strong> <span class="lang-es">Obligatorio para autor de correspondencia.</span><span class="lang-en">Mandatory for the corresponding author.</span></li>
+                </ul>
+                
+                <button class="btn-glow">
+                    <span class="lang-es">Descargar Instrucciones</span><span class="lang-en">Download Guidelines</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="publicaciones" class="content-section">
+        <h2 class="section-header">
+            <span class="lang-es">Publicaciones Recientes</span><span class="lang-en">Recent Publications</span>
+        </h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">
+            <span class="lang-es">Explora nuestra base de datos de artículos científicos.</span>
+            <span class="lang-en">Explore our scientific article database.</span>
+        </p>
+        
+        <input type="text" id="searchInput" placeholder="Ej. Biotecnología, Vol. 1...">
+        
+        <div id="articlesContainer" class="grid-container">
+            </div>
+    </section>
+
+    <footer id="contacto" class="footer">
+        <div class="contact-grid">
+            <div class="contact-item">
+                <h4><span class="lang-es">Contacto Editorial</span><span class="lang-en">Editorial Contact</span></h4>
+                <p><strong>Email:</strong></p>
+                <p style="color: var(--gold-main); font-weight: 500; font-size: 1.1rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif;">rmcia.mjase@correo.uady.mx</p>
+                
+                <h4 style="margin-top: 2rem;"><span class="lang-es">Editor Responsable</span><span class="lang-en">Editor-in-Chief</span></h4>
+                <p>Dr. Luis Antonio Chel Guerrero</p>
+            </div>
+            <div class="contact-item">
+                <h4><span class="lang-es">Dirección Institucional</span><span class="lang-en">Institutional Address</span></h4>
+                <p><span class="lang-es">Facultad de Ingeniería Química<br>Universidad Autónoma de Yucatán</span><span class="lang-en">Faculty of Chemical Engineering<br>Autonomous University of Yucatan</span></p>
+                <p style="margin-top: 1rem;">Periférico Norte Km 33.5, Tablaje Catastral 13615<br>Col. Chuburná de Hidalgo Inn, C.P. 97203<br>Mérida, Yucatán, México</p>
+                <p style="margin-top: 1rem;"><strong>Tel:</strong> (999) 946-0956</p>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; color: var(--text-muted); font-size: 0.85rem;">
+            <p>© 2026 Facultad de Ingeniería Química - Universidad Autónoma de Yucatán</p>
+            <p style="margin-top: 10px;"><span class="lang-es">ISSN: En trámite | Periodicidad: Semestral</span><span class="lang-en">ISSN: Pending | Frequency: Biannual</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. CONTROL DE IDIOMA BILINGÜE
+        function setLanguage(lang, btnElement) {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            
+            renderArticles(currentFilteredArticles, lang);
+            
+            const searchInput = document.getElementById('searchInput');
+            if(lang === 'es') searchInput.placeholder = "Ej. Biotecnología, Vol. 1...";
+            else searchInput.placeholder = "Ex. Biotechnology, Vol. 1...";
+        }
+
+
+        // 1.1 CONTROL DE TEMA DÍA / NOCHE
+        // Modo día = diseño claro con fondo blanco.
+        // Modo noche = diseño oscuro original.
+        function normalizeTheme(theme) {
+            if (theme === 'light') return 'day';
+            if (theme === 'dark') return 'night';
+            return theme === 'night' ? 'night' : 'day';
+        }
+
+        function updateThemeButton(theme) {
+            const btn = document.getElementById('themeToggle');
+            if (!btn) return;
+
+            if (theme === 'day') {
+                btn.innerHTML = '☀️ <span class="lang-es">Modo día</span><span class="lang-en">Day mode</span>';
+                btn.setAttribute('aria-label', 'Modo día activo. Cambiar a modo noche');
+                btn.setAttribute('title', 'Modo día activo. Clic para cambiar a modo noche.');
+            } else {
+                btn.innerHTML = '🌙 <span class="lang-es">Modo noche</span><span class="lang-en">Night mode</span>';
+                btn.setAttribute('aria-label', 'Modo noche activo. Cambiar a modo día');
+                btn.setAttribute('title', 'Modo noche activo. Clic para cambiar a modo día.');
+            }
+        }
+
+        function setTheme(theme) {
+            const normalizedTheme = normalizeTheme(theme);
+            const isDay = normalizedTheme === 'day';
+            document.body.classList.toggle('light-mode', isDay);
+
+            const logo = document.getElementById('themeLogo');
+            if (logo) {
+                logo.src = isDay ? 'Logo-dia.png' : 'Logo-noche.png';
+            }
+
+            localStorage.setItem('rmcia-theme', normalizedTheme);
+            updateThemeButton(normalizedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('light-mode') ? 'day' : 'night';
+            const nextTheme = currentTheme === 'day' ? 'night' : 'day';
+            setTheme(nextTheme);
+        }
+
+        setTheme(normalizeTheme(localStorage.getItem('rmcia-theme') || 'day'));
+
+        // 2. LUCIÉRNAGAS
+        function createFireflies() {
+            const container = document.getElementById('fireflies-container');
+            for (let i = 0; i < 25; i++) {
+                let firefly = document.createElement('div');
+                firefly.classList.add('firefly');
+                let size = Math.random() * 3 + 2;
+                firefly.style.width = `${size}px`; firefly.style.height = `${size}px`;
+                firefly.style.left = `${Math.random() * 100}vw`; firefly.style.top = `${Math.random() * 100}vh`;
+                let color = Math.random() > 0.7 ? 'rgba(255, 255, 255, 0.4)' : 'rgba(212, 175, 55, 0.7)';
+                firefly.style.backgroundColor = color; firefly.style.color = color; 
+                let driftDuration = Math.random() * 15 + 10; let blinkDuration = Math.random() * 3 + 2; let delay = Math.random() * -20; 
+                firefly.style.setProperty('--move-x', `${(Math.random() - 0.5) * 300}px`);
+                firefly.style.setProperty('--move-y', `${(Math.random() - 0.5) * 300}px`);
+                firefly.style.animation = `drift ${driftDuration}s ${delay}s infinite alternate ease-in-out, blink ${blinkDuration}s ${delay}s infinite alternate ease-in-out`;
+                container.appendChild(firefly);
+            }
+        }
+        createFireflies();
+
+        // 3. SCROLL REVEAL
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add("visible");
+                obs.unobserve(entry.target);
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+
+        // 4. PESTAÑAS PARA AUTORES
+        function switchAuthorTab(tabId, btn) {
+            document.querySelectorAll('.inner-tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.inner-tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // 5. BASE DE DATOS BILINGÜE
+        const articlesData = [
+            {
+                edicion: "Vol. 1, No. 1",
+                titulo_es: "Dinámica de Fluidos Computacional como Herramienta Didáctica en Ingeniería de Reactores",
+                titulo_en: "Computational Fluid Dynamics as a Didactic Tool in Reactor Engineering",
+                autores: "Baz-Rodríguez, S.; Zitlalpopoca-Soriano, A.; Gijón-Arreortúa, I.",
+                temas: ["dinámica de fluidos computacional", "CFD", "fluidos", "reactores", "ingeniería química", "computational fluid dynamics", "reactors", "chemical engineering"],
+                link: "https://zenodo.org/records/20278826"
+            }
+        ];
+
+        let currentFilteredArticles = articlesData;
+
+        function renderArticles(articles, lang = document.documentElement.lang) {
+            const container = document.getElementById('articlesContainer');
+            container.innerHTML = '';
+            if (articles.length === 0) {
+                const emptyMsg = lang === 'es' ? 'No se encontraron artículos.' : 'No articles found.';
+                container.innerHTML = `<p style="color: var(--text-muted); grid-column: 1 / -1; text-align: center; padding: 3rem; background: var(--glass-bg); border-radius: 24px;">${emptyMsg}</p>`;
+                return;
+            }
+            const reversedArticles = [...articles].reverse();
+            reversedArticles.forEach((art, index) => {
+                const numStr = "0" + (index + 1);
+                const title = lang === 'es' ? art.titulo_es : art.titulo_en;
+                const btnText = lang === 'es' ? 'Leer Artículo PDF →' : 'Read Article PDF →';
+                const issueText = lang === 'es' ? art.edicion : art.edicion.replace("Vol.", "Vol.").replace("No.", "Issue"); 
+
+                container.innerHTML += `
+                    <div class="glass-card">
+                        <div class="card-number">${numStr}</div>
+                        <div class="card-content">
+                            <div class="issue-badge">${issueText}</div>
+                            <div class="article-title">${title}</div>
+                            <div class="article-authors">${art.autores}</div>
+                            <a href="${art.link}" class="btn-sleek" target="_blank" rel="noopener noreferrer">${btnText}</a>
+                        </div>
+                    </div>`;
+            });
+        }
+        
+        renderArticles(articlesData);
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            currentFilteredArticles = articlesData.filter(art => 
+                art.titulo_es.toLowerCase().includes(term) || 
+                art.titulo_en.toLowerCase().includes(term) || 
+                art.autores.toLowerCase().includes(term) || 
+                art.edicion.toLowerCase().includes(term) || 
+                art.temas.some(tema => tema.toLowerCase().includes(term))
+            );
+            renderArticles(currentFilteredArticles);
+        });
+    </script>
+</body>
+</html>
