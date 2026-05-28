@@ -43,21 +43,21 @@
 
         /* Modo día: fondo blanco/azulado con dorado más contrastante */
         body.light-mode {
-            --bg-dark: #f7fbff;
-            --bg-nav: rgba(255, 255, 255, 0.82);
+            --bg-dark: #eaf4fb;
+            --bg-nav: rgba(239, 247, 252, 0.88);
             --text-main: #1f2d3d;
-            --text-muted: #526475;
+            --text-muted: #50677c;
             --heading-main: #10243a;
             --gold-main: #b38728;
-            --title-gradient: linear-gradient(90deg, #7f5a14 0%, #b38728 35%, #d0a83f 58%, #8f6518 100%);
-            --glass-bg: rgba(13, 74, 118, 0.045);
-            --glass-border: rgba(18, 78, 120, 0.16);
-            --card-bg: rgba(255, 255, 255, 0.74);
-            --card-bg-strong: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(240,247,255,0.88));
-            --footer-bg: rgba(255,255,255,0.82);
-            --field-bg: rgba(255,255,255,0.76);
-            --shadow-soft: rgba(14, 50, 78, 0.16);
-            --banner-overlay: rgba(255,255,255,0.30);
+            --title-gradient: linear-gradient(90deg, #75510f 0%, #a9781f 32%, #c99f36 58%, #815b15 100%);
+            --glass-bg: rgba(18, 92, 143, 0.075);
+            --glass-border: rgba(18, 78, 120, 0.22);
+            --card-bg: rgba(250, 253, 255, 0.78);
+            --card-bg-strong: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(226,240,250,0.90));
+            --footer-bg: rgba(232, 243, 250, 0.90);
+            --field-bg: rgba(250, 253, 255, 0.82);
+            --shadow-soft: rgba(14, 50, 78, 0.18);
+            --banner-overlay: rgba(234, 244, 251, 0.18);
             --banner-overlay-blend: normal;
         }
 
@@ -142,7 +142,7 @@
 
         /* --- BOTÓN DE MODO DÍA / NOCHE --- */
         .theme-toggle {
-            position: fixed; top: 1.5rem; left: 2rem; z-index: 100;
+            position: fixed; top: 1.5rem; right: 8.4rem; left: auto; z-index: 100;
             background: var(--bg-nav); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 30px;
             padding: 0.25rem; box-shadow: 0 10px 30px var(--shadow-soft);
@@ -315,7 +315,8 @@
 
         body.light-mode .ambient-background {
             background:
-                radial-gradient(circle at 50% 0%, rgba(20, 101, 154, 0.22) 0%, rgba(247, 251, 255, 0.92) 48%, var(--bg-dark) 100%);
+                radial-gradient(circle at 50% 0%, rgba(18, 92, 143, 0.28) 0%, rgba(234, 244, 251, 0.96) 45%, var(--bg-dark) 100%),
+                linear-gradient(135deg, rgba(255,255,255,0.72) 0%, rgba(219,237,249,0.92) 100%);
         }
         body.light-mode .firefly { opacity: 0.25; box-shadow: 0 0 6px currentColor, 0 0 12px currentColor; }
         body.light-mode .floating-nav,
@@ -328,7 +329,7 @@
         body.light-mode .footer {
             box-shadow: 0 16px 35px rgba(14, 50, 78, 0.12);
         }
-        body.light-mode .hero-banner-container { box-shadow: 0 18px 45px rgba(14, 50, 78, 0.18); }
+        body.light-mode .hero-banner-container { box-shadow: 0 18px 45px rgba(14, 50, 78, 0.20); }
         body.light-mode .nav-link:hover { background: rgba(13, 74, 118, 0.06); border-color: rgba(197,155,45,0.28); }
         body.light-mode .issue-badge { background: rgba(197,155,45,0.10); border-color: rgba(197,155,45,0.22); }
         body.light-mode .btn-glow { color: #10243a; }
@@ -343,7 +344,7 @@
             .section-header { font-size: 2rem; }
             .floating-nav { top: 1rem; width: 85%; left: 2rem; transform: none; justify-content: flex-start; }
             .language-toggle { top: 1rem; right: 1rem; }
-            .theme-toggle { top: 4.2rem; left: 1rem; }
+            .theme-toggle { top: 4.2rem; right: 1rem; left: auto; }
             .theme-btn { padding: 0.45rem 0.75rem; font-size: 0.76rem; }
             .multi-column-list { grid-template-columns: 1fr !important; }
             .hero-banner-container { height: 25vh; margin-top: 1rem; }
