@@ -368,7 +368,22 @@
             height: 100%;
             object-fit: cover;
         }
-        .issue-cover { aspect-ratio: 8.5 / 11; width: 100%; max-width: 260px; justify-self: center; }
+
+        /* Vista previa de la revista completa:
+           se usa la proporción real de la portada y object-fit: contain
+           para que la imagen se vea completa sin recortes. */
+        .issue-cover {
+            aspect-ratio: 700 / 990;
+            width: 100%;
+            max-width: 260px;
+            justify-self: center;
+            background: #ffffff;
+        }
+        .issue-cover img {
+            object-fit: contain;
+            object-position: center;
+            background: #ffffff;
+        }
         .publication-view-toggle {
             display: flex;
             justify-content: center;
