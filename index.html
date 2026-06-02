@@ -324,7 +324,7 @@
         /* --- PUBLICACIONES: REVISTAS COMPLETAS Y ARTÍCULOS --- */
         .publication-featured {
             display: grid;
-            grid-template-columns: minmax(180px, 260px) 1fr;
+            grid-template-columns: minmax(230px, 338px) 1fr;
             gap: 2rem;
             align-items: stretch;
             margin-bottom: 3rem;
@@ -368,22 +368,8 @@
             height: 100%;
             object-fit: cover;
         }
-
-        /* Vista previa de la revista completa:
-           se usa la proporción real de la portada y object-fit: contain
-           para que la imagen se vea completa sin recortes. */
-        .issue-cover {
-            aspect-ratio: 700 / 990;
-            width: 100%;
-            max-width: 260px;
-            justify-self: center;
-            background: #ffffff;
-        }
-        .issue-cover img {
-            object-fit: contain;
-            object-position: center;
-            background: #ffffff;
-        }
+        .issue-cover { aspect-ratio: 70 / 99; width: 100%; max-width: 338px; justify-self: center; background: transparent; }
+        .issue-cover img { object-fit: contain; object-position: center; padding: 0; }
         .publication-view-toggle {
             display: flex;
             justify-content: center;
@@ -565,7 +551,7 @@
             .articles-grid { grid-template-columns: 1fr; }
             .publication-view-toggle { width: 100%; border-radius: 24px; }
             .publication-toggle-btn { flex: 1 1 180px; }
-            .issue-cover { max-width: 210px; }
+            .issue-cover { max-width: 273px; }
 
         }
     </style>
