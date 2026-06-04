@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RCIA - Revista de Ciencia e Ingeniería Aplicada De La UADY</title>
+    <title>RCIA-UADY - Revista de Ciencia e Ingeniería Aplicada De La UADY</title>
     <!-- Tipografía institucional UADY mediante stack Helvetica/Arial; título principal en Lucida Bright. -->
     <style>
         :root {
@@ -332,7 +332,90 @@
         .publication-info { display: flex; flex-direction: column; justify-content: center; }
         .publication-meta { color: var(--gold-main); font-size: 0.85rem; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 0.9rem; }
         .publication-description { color: var(--text-main); line-height: 1.8; font-size: 1.05rem; max-width: 780px; }
-        .publication-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+        .issue-meta-line {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            color: var(--gold-main);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-bottom: 0.85rem;
+        }
+        .issue-meta-line::before {
+            content: '';
+            width: 34px;
+            height: 2px;
+            background: var(--gold-main);
+            display: inline-block;
+            opacity: 0.9;
+        }
+        .issue-toc {
+            margin-top: 1.7rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+        .issue-toc-title {
+            color: var(--gold-main);
+            font-family: var(--font-heading);
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .issue-toc-list {
+            display: grid;
+            gap: 0;
+        }
+        .issue-toc-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            padding: 0.85rem 0;
+            border-top: 1px dashed rgba(148, 163, 184, 0.28);
+            align-items: start;
+        }
+        .issue-toc-item:first-child { border-top: none; }
+        .issue-toc-article-title {
+            color: var(--heading-main);
+            font-size: 0.96rem;
+            font-weight: 800;
+            line-height: 1.42;
+            margin-bottom: 0.35rem;
+        }
+        .issue-toc-authors {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+        .issue-page-badge {
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            color: var(--gold-main);
+            border-radius: 999px;
+            padding: 0.28rem 0.68rem;
+            font-size: 0.78rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        body.light-mode .issue-page-badge {
+            background: rgba(13, 118, 128, 0.10);
+            border-color: rgba(13, 118, 128, 0.18);
+            color: #0f6b75;
+        }
+        .publication-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; align-items: center; }
+        .publication-actions .btn-glow,
+        .publication-actions .btn-secondary {
+            margin-top: 0;
+            min-height: 48px;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            line-height: 1;
+        }
         .cover-frame {
             position: relative;
             overflow: hidden;
@@ -416,6 +499,32 @@
         .article-cover { aspect-ratio: 1 / 1; width: 100%; margin-bottom: 1.25rem; border-radius: 16px; }
         .article-cover-card .article-title { font-size: 1.05rem; line-height: 1.35; }
         .article-cover-card .article-authors { margin-bottom: 0.8rem; font-size: 0.88rem; }
+
+        .article-cover.cover-frame img { object-fit: contain; background: rgba(255,255,255,0.02); }
+        .article-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin: 0.9rem 0 0.35rem;
+        }
+        .article-tag {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.28rem 0.72rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--gold-main);
+            background: rgba(212, 175, 55, 0.10);
+            border: 1px solid rgba(212, 175, 55, 0.22);
+        }
+        .article-tag-muted {
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.045);
+            border-color: var(--glass-border);
+        }
+
         .btn-secondary {
             appearance: none;
             background: transparent;
@@ -484,6 +593,31 @@
         .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; }
         .contact-item h4 { color: var(--heading-main); font-family: var(--font-heading); font-style: oblique; font-size: 1.4rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
         .contact-item p { color: var(--text-muted); line-height: 1.8; font-size: 0.95rem; }
+
+
+        /* --- PIE LEGAL SIEMPRE VISIBLE --- */
+        .site-legal-footer {
+            background: var(--footer-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 1.4rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            box-shadow: 0 -10px 28px rgba(0,0,0,0.10);
+        }
+
+        .site-legal-footer p {
+            margin: 0.15rem 0;
+        }
+
+        .site-legal-footer strong {
+            color: var(--heading-main);
+            font-weight: 600;
+        }
 
 
         body:not(.light-mode) .card-number { color: rgba(255,255,255,0.05); }
@@ -612,7 +746,7 @@
                 <button type="button" class="nav-link" data-section="acerca" onclick="showSection('acerca', this)"><span class="lang-es">Acerca de</span><span class="lang-en">About</span></button>
                 <button type="button" class="nav-link" data-section="autores" onclick="showSection('autores', this)"><span class="lang-es">Autores</span><span class="lang-en">Authors</span></button>
                 <button type="button" class="nav-link" data-section="etica" onclick="showSection('etica', this)"><span class="lang-es">Ética</span><span class="lang-en">Ethics</span></button>
-                <button type="button" class="nav-link" data-section="comite" onclick="showSection('comite', this)"><span class="lang-es">Comité</span><span class="lang-en">Committee</span></button>
+                <button type="button" class="nav-link" data-section="comite" onclick="showSection('comite', this)"><span class="lang-es">Comités</span><span class="lang-en">Committees</span></button>
                 <button type="button" class="nav-link" data-section="contacto" onclick="showSection('contacto', this)"><span class="lang-es">Contacto</span><span class="lang-en">Contact</span></button>
             </nav>
         </div>
@@ -624,13 +758,36 @@
         </h2>
         <div class="glass-card" style="margin-bottom: 4rem; text-align: center; padding: 3rem 2rem;">
             <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-main); max-width: 900px; margin: 0 auto;">
-                <span class="lang-es">La <strong style="color: var(--gold-main);">Revista de Ciencia e Ingeniería Aplicada De La UADY (RCIA)</strong> es una publicación científica de acceso abierto, semestral, editada por la Facultad de Ingeniería Química de la Universidad Autónoma de Yucatán (UADY). Nuestra misión es difundir resultados originales de investigación, revisiones bibliográficas y ensayos científicos en todas las áreas de la ciencia, la ingeniería y la tecnología.</span>
-                <span class="lang-en">The <strong style="color: var(--gold-main);">UADY Journal of Applied Science and Engineering (RCIA)</strong> is a biannual, open-access scientific publication edited by the Faculty of Chemical Engineering of the Autonomous University of Yucatan (UADY). Our mission is to disseminate original research results, literature reviews, and scientific essays in all areas of science, engineering, and technology.</span>
+                <span class="lang-es">La <strong style="color: var(--gold-main);">Revista de Ciencia e Ingeniería Aplicada De La UADY (RCIA-UADY)</strong> es una publicación científica de acceso abierto, semestral, editada por la Facultad de Ingeniería Química de la Universidad Autónoma de Yucatán (UADY). Nuestra misión es difundir resultados originales de investigación, revisiones bibliográficas y ensayos científicos en las áreas de ciencia aplicada, ingeniería y tecnología con énfasis en procesos químicos, biotecnológicos, alimentarios y afines.</span>
+                <span class="lang-en">The <strong style="color: var(--gold-main);">UADY Journal of Applied Science and Engineering (RCIA-UADY)</strong> is a biannual, open-access scientific publication edited by the Faculty of Chemical Engineering of the Autonomous University of Yucatan (UADY). Our mission is to disseminate original research results, literature reviews, and scientific essays in applied science, engineering, and technology, with emphasis on chemical, biotechnological, food-related, and related processes.</span>
             </p>
             <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-main); max-width: 900px; margin: 1.5rem auto 0;">
                 <span class="lang-es">Aceptamos contribuciones en <strong>español e inglés</strong>, promoviendo el intercambio académico y la visibilidad internacional de la investigación generada en México e Iberoamérica.</span>
                 <span class="lang-en">We accept contributions in <strong>Spanish and English</strong>, promoting academic exchange and the international visibility of research generated in Mexico and Latin America.</span>
             </p>
+        </div>
+
+        <div class="grid-container" style="margin-top: 0; margin-bottom: 4rem;">
+            <div class="glass-card">
+                <div class="card-number">M</div>
+                <div class="card-content">
+                    <div class="issue-badge"><span class="lang-es">Misión</span><span class="lang-en">Mission</span></div>
+                    <p class="article-authors">
+                        <span class="lang-es">Difundir resultados originales de investigación científica y tecnológica de alta calidad, promoviendo el acceso abierto y la visibilidad internacional de la investigación generada en México e Iberoamérica.</span>
+                        <span class="lang-en">To disseminate original, high-quality scientific and technological research results, promoting open access and the international visibility of research generated in Mexico and Latin America.</span>
+                    </p>
+                </div>
+            </div>
+            <div class="glass-card">
+                <div class="card-number">V</div>
+                <div class="card-content">
+                    <div class="issue-badge"><span class="lang-es">Visión</span><span class="lang-en">Vision</span></div>
+                    <p class="article-authors">
+                        <span class="lang-es">Consolidarse como una revista científica de referencia en ingeniería aplicada y ciencias afines en el ámbito iberoamericano, reconocida por su rigor editorial y su compromiso con la ciencia abierta.</span>
+                        <span class="lang-en">To become a reference scientific journal in applied engineering and related sciences in the Ibero-American context, recognized for its editorial rigor and commitment to open science.</span>
+                    </p>
+                </div>
+            </div>
         </div>
 
         <h2 class="section-header" style="font-size: 2rem;">
@@ -654,8 +811,8 @@
                     <div class="issue-badge"><span class="lang-es">Rigor Científico</span><span class="lang-en">Scientific Rigor</span></div>
                     <div class="article-title"><span class="lang-es">Revisión por Pares</span><span class="lang-en">Peer Review</span></div>
                     <p class="article-authors">
-                        <span class="lang-es">Implementamos un estricto sistema de revisión doble ciego con expertos internacionales para garantizar la más alta calidad.</span>
-                        <span class="lang-en">We implement a strict double-blind review system with international experts to guarantee the highest quality.</span>
+                        <span class="lang-es">Implementamos un sistema de revisión doble ciego con especialistas en las áreas temáticas de la revista para garantizar la más alta calidad.</span>
+                        <span class="lang-en">We implement a double-blind review system with specialists in the journal's thematic areas to guarantee the highest quality.</span>
                     </p>
                 </div>
             </div>
@@ -689,11 +846,11 @@
                     <span class="lang-es">Políticas Editoriales</span><span class="lang-en">Editorial Policies</span>
                 </h3>
                 <ul class="styled-list">
-                    <li><strong><span class="lang-es">Acceso Abierto:</span><span class="lang-en">Open Access:</span></strong> <span class="lang-es">Sin costo de publicación para autores (APC = $0).</span><span class="lang-en">No publication fees for authors (APC = $0).</span></li>
+                    <li><strong><span class="lang-es">Acceso Abierto:</span><span class="lang-en">Open Access:</span></strong> <span class="lang-es">Sin costo de publicación para autores (APC = $0). Bajo licencia CC BY 4.0.</span><span class="lang-en">No publication fees for authors (APC = $0). Under CC BY 4.0 license.</span></li>
                     <li><strong><span class="lang-es">Revisión:</span><span class="lang-en">Review:</span></strong> <span class="lang-es">Sistema doble ciego con evaluadores externos.</span><span class="lang-en">Double-blind system with external reviewers.</span></li>
                     <li><strong><span class="lang-es">Ética:</span><span class="lang-en">Ethics:</span></strong> <span class="lang-es">Adherencia a las directrices del COPE.</span><span class="lang-en">Adherence to COPE guidelines.</span></li>
                     <li><strong><span class="lang-es">Antiplagio:</span><span class="lang-en">Anti-plagiarism:</span></strong> <span class="lang-es">Evaluación estricta de similitud en manuscritos.</span><span class="lang-en">Strict similarity evaluation software.</span></li>
-                    <li><strong><span class="lang-es">Identificadores Persistentes:</span><span class="lang-en">Persistent Identifiers:</span></strong> <span class="lang-es">Cada artículo recibe un DOI único (en implementación).</span><span class="lang-en">Each article receives a unique DOI (in implementation).</span></li>
+                    <li><strong><span class="lang-es">Identificadores Persistentes:</span><span class="lang-en">Persistent Identifiers:</span></strong> <span class="lang-es">Cada artículo publicado recibe un DOI único.</span><span class="lang-en">Each published article receives a unique DOI.</span></li>
                 </ul>
             </div>
         </div>
@@ -732,14 +889,14 @@
                 <span class="lang-es">Responsabilidades de la Revista</span><span class="lang-en">Journal Responsibilities</span>
             </h3>
             <ul class="styled-list">
-                <li><span class="lang-es">RCIA se compromete a recibir el artículo enviado, revisar el cumplimiento de los criterios de pertinencia temática y de forma correspondientes al primer filtro editorial. De ser así, enviarlo a revisión con especialistas. Informar al autor/a de correspondencia la fase del proceso, revisar las observaciones de los revisores, emitir dictamen académico y programar la publicación si es aceptado.</span>
-                    <span class="lang-en">RCIA commits to receiving the submitted article, verifying compliance with thematic relevance and formatting criteria for the first editorial filter. If compliant, send it for review with specialists. Inform the corresponding author of the process phase, review the reviewers' observations, issue an academic decision, and schedule publication if accepted.</span></li>
+                <li><span class="lang-es">RCIA-UADY se compromete a recibir el artículo enviado, revisar el cumplimiento de los criterios de pertinencia temática y de forma correspondientes al primer filtro editorial. De ser así, enviarlo a revisión con especialistas. Informar al autor/a de correspondencia la fase del proceso, revisar las observaciones de los revisores, emitir dictamen académico y programar la publicación si es aceptado.</span>
+                    <span class="lang-en">RCIA-UADY commits to receiving the submitted article, verifying compliance with thematic relevance and formatting criteria for the first editorial filter. If compliant, send it for review with specialists. Inform the corresponding author of the process phase, review the reviewers' observations, issue an academic decision, and schedule publication if accepted.</span></li>
                 
-                <li><span class="lang-es">RCIA tiene la responsabilidad de informar al autor/a la fase del proceso de edición correspondiente.</span>
-                    <span class="lang-en">RCIA is responsible for informing the author of the corresponding editorial phase.</span></li>
+                <li><span class="lang-es">RCIA-UADY tiene la responsabilidad de informar al autor/a la fase del proceso de edición correspondiente.</span>
+                    <span class="lang-en">RCIA-UADY is responsible for informing the author of the corresponding editorial phase.</span></li>
                 
-                <li><span class="lang-es">RCIA mantendrá informado al autor/a en las siguientes fases del proceso editorial:</span>
-                    <span class="lang-en">RCIA will keep the author informed during the following editorial phases:</span>
+                <li><span class="lang-es">RCIA-UADY mantendrá informado al autor/a en las siguientes fases del proceso editorial:</span>
+                    <span class="lang-en">RCIA-UADY will keep the author informed during the following editorial phases:</span>
                     <ul class="sub-list">
                         <li><span class="lang-es">Recepción del original.</span><span class="lang-en">Receipt of the original manuscript.</span></li>
                         <li><span class="lang-es">Aceptación o rechazo en primer filtro.</span><span class="lang-en">Acceptance or rejection in the first filter.</span></li>
@@ -752,7 +909,7 @@
                 <li><span class="lang-es">La publicación de un artículo dependerá exclusivamente de:</span>
                     <span class="lang-en">The publication of an article will depend exclusively on:</span>
                     <ul class="sub-list">
-                        <li><span class="lang-es">La concordancia con la temática de RCIA.</span><span class="lang-en">Concordance with RCIA's thematic scope.</span></li>
+                        <li><span class="lang-es">La concordancia con la temática de RCIA-UADY.</span><span class="lang-en">Concordance with RCIA-UADY's thematic scope.</span></li>
                         <li><span class="lang-es">El cumplimiento estricto de los requisitos de forma.</span><span class="lang-en">Strict compliance with formatting requirements.</span></li>
                         <li><span class="lang-es">Los resultados de la evaluación académica de los revisores.</span><span class="lang-en">The results of the reviewers' academic evaluation.</span></li>
                         <li><span class="lang-es">La satisfacción de las observaciones requeridas.</span><span class="lang-en">Satisfaction of the observations required by reviewers.</span></li>
@@ -762,17 +919,17 @@
                 <li><span class="lang-es">Las decisiones editoriales no se verán afectadas por razones de nacionalidad, etnicidad, posición política o religión de los autores.</span>
                     <span class="lang-en">Editorial decisions will not be affected by the nationality, ethnicity, political position, or religion of the authors.</span></li>
                 
-                <li><span class="lang-es">RCIA garantizará que los artículos enviados por los integrantes de sus cuerpos editoriales y revisores serán sometidos a los mismos procesos de evaluación doble ciego.</span>
-                    <span class="lang-en">RCIA will guarantee that articles submitted by members of its editorial boards and reviewers undergo the same double-blind evaluation processes.</span></li>
+                <li><span class="lang-es">RCIA-UADY garantizará que los artículos enviados por los integrantes de sus cuerpos editoriales y revisores serán sometidos a los mismos procesos de evaluación doble ciego.</span>
+                    <span class="lang-en">RCIA-UADY will guarantee that articles submitted by members of its editorial boards and reviewers undergo the same double-blind evaluation processes.</span></li>
                 
-                <li><span class="lang-es">RCIA se compromete a respetar estrictamente el proceso de dictamen establecido.</span>
-                    <span class="lang-en">RCIA commits to strictly respecting the established review process.</span></li>
+                <li><span class="lang-es">RCIA-UADY se compromete a respetar estrictamente el proceso de dictamen establecido.</span>
+                    <span class="lang-en">RCIA-UADY commits to strictly respecting the established review process.</span></li>
                 
-                <li><span class="lang-es">En caso de inconformidad con los dictámenes, RCIA solicitará al autor un documento justificando la razón, y lo remitirá al Comité Editorial, quien decidirá lo que procede.</span>
-                    <span class="lang-en">In case of disagreement with the reviews, RCIA will request a justification document from the author and forward it to the Editorial Committee for a final decision.</span></li>
+                <li><span class="lang-es">En caso de inconformidad con los dictámenes, RCIA-UADY solicitará al autor un documento justificando la razón, y lo remitirá al Comité Editorial, quien decidirá lo que procede.</span>
+                    <span class="lang-en">In case of disagreement with the reviews, RCIA-UADY will request a justification document from the author and forward it to the Editorial Committee for a final decision.</span></li>
                 
-                <li><span class="lang-es">Los integrantes de los cuerpos editoriales y dictaminadores se comprometen a no utilizar en sus propios trabajos, materiales inéditos que formen parte de artículos sometidos a RCIA.</span>
-                    <span class="lang-en">Editorial board members and reviewers commit not to use unpublished materials from articles submitted to RCIA in their own work.</span></li>
+                <li><span class="lang-es">Los integrantes de los cuerpos editoriales y dictaminadores se comprometen a no utilizar en sus propios trabajos, materiales inéditos que formen parte de artículos sometidos a RCIA-UADY.</span>
+                    <span class="lang-en">Editorial board members and reviewers commit not to use unpublished materials from articles submitted to RCIA-UADY in their own work.</span></li>
             </ul>
         </div>
 
@@ -781,7 +938,7 @@
                 <span class="lang-es">Responsabilidades de los Autores</span><span class="lang-en">Authors' Responsibilities</span>
             </h3>
             <ul class="styled-list">
-                <li><span class="lang-es">El autor se compromete a que el artículo es un trabajo inédito. Se rechazará si el texto completo ya fue publicado, si usa fragmentos extensos de materiales previos, o si está contenido en memorias publicadas in extenso (impreso o electrónico, en cualquier idioma).</span>
+                <li><span class="lang-es">El autor se compromete a que el artículo es un trabajo inédito. Se rechazará si el texto completo ya fue publicado, si usa fragmentos extensos de materiales previos, o si está contenido en memorias de congreso publicadas in extenso (proceedings).</span>
                     <span class="lang-en">The author commits that the article is an unpublished work. It will be rejected if the full text has been published, uses extensive fragments of previous materials, or is contained in published proceedings in extenso (print or electronic, in any language).</span></li>
                 
                 <li><span class="lang-es">Es responsabilidad del autor/a evitar cualquier conflicto de interés en la publicación de datos y resultados.</span>
@@ -796,10 +953,10 @@
                 <li><span class="lang-es">El uso de materiales no publicados de terceros deberá contar con autorización expresa de los interesados.</span>
                     <span class="lang-en">The use of unpublished third-party materials requires express authorization from the interested parties.</span></li>
                 
-                <li><span class="lang-es">El autor/a no debe remitir su trabajo a cualquier otra publicación mientras esté sometido en RCIA. Hacerlo suspenderá el proceso de revisión.</span>
-                    <span class="lang-en">The author must not submit their work to any other publication while it is under review at RCIA. Doing so will suspend the review process.</span></li>
+                <li><span class="lang-es">El autor/a no debe remitir su trabajo a cualquier otra publicación mientras esté sometido en RCIA-UADY. Hacerlo suspenderá el proceso de revisión.</span>
+                    <span class="lang-en">The author must not submit their work to any other publication while it is under review at RCIA-UADY. Doing so will suspend the review process.</span></li>
                 
-                <li><span class="lang-es">El autor acepta en su integridad las normas, criterios y procedimientos editoriales de la Revista.</span>
+                <li><span class="lang-es">Al someter su manuscrito, el autor acepta los lineamientos, criterios y procedimientos editoriales de la RCIA-UADY.</span>
                     <span class="lang-en">The author fully accepts the journal's editorial norms, criteria, and procedures.</span></li>
             </ul>
         </div>
@@ -823,7 +980,7 @@
 
     <section id="comite" class="content-section page-section">
         <h2 class="section-header">
-            <span class="lang-es">Comité Editorial</span><span class="lang-en">Editorial Committee</span>
+            <span class="lang-es">Comités Editoriales</span><span class="lang-en">Editorial Committees</span>
         </h2>
         
         <div class="chief-card">
@@ -870,13 +1027,13 @@
         <div class="glass-card" style="text-align: center; padding: 3rem 2rem;">
             <div class="issue-badge"><span class="lang-es">Guía de envío</span><span class="lang-en">Submission Guidelines</span></div>
             <h3 class="article-title" style="color: var(--gold-main); font-size: 1.8rem; margin-bottom: 1.2rem;">
-                <span class="lang-es">Notas para Autores RCIA</span><span class="lang-en">RCIA Author Guidelines</span>
+                <span class="lang-es">Notas para Autores RCIA-UADY</span><span class="lang-en">RCIA-UADY Author Guidelines</span>
             </h3>
             <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-main); max-width: 820px; margin: 0 auto;">
-                <span class="lang-es">En esta sección se disponen los requerimientos para el envío de manuscritos a la revista. El documento incluye los tipos de contribuciones aceptadas, el proceso de envío, el formato del manuscrito, los lineamientos éticos y la declaración de herramientas tecnológicas.</span>
+                <span class="lang-es">Guía completa para la preparación y envío de manuscritos. Incluye tipos de contribuciones aceptadas, formato requerido, lineamientos éticos y declaración de herramientas tecnológicas.</span>
                 <span class="lang-en">This section provides the requirements for submitting manuscripts to the journal. The document includes accepted contribution types, the submission process, manuscript formatting, ethical guidelines, and the declaration of technological tools.</span>
             </p>
-            <a href="Notas_para_Autores_RCIA.pdf" class="btn-glow" download>
+            <a href="Notas_para_Autores_RCIA-UADY.pdf" class="btn-glow" download>
                 <span class="lang-es">Descargar PDF</span><span class="lang-en">Download PDF</span>
             </a>
         </div>
@@ -887,7 +1044,7 @@
             <span class="lang-es">Publicaciones</span><span class="lang-en">Publications</span>
         </h2>
         <p class="section-panel-intro">
-            <span class="lang-es">Consulta las ediciones completas de la revista o explora los artículos publicados de manera individual.</span>
+            <span class="lang-es">Consulta los números publicados de la RCIA-UADY y accede a los artículos en acceso abierto.</span>
             <span class="lang-en">Browse full journal issues or explore individually published articles.</span>
         </p>
 
@@ -935,11 +1092,16 @@
                 <p style="margin-top: 1rem;"><strong>Tel:</strong> (999) 946-0956</p>
             </div>
         </div>
-        <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; color: var(--text-muted); font-size: 0.85rem;">
-            <p>© 2026 Facultad de Ingeniería Química - Universidad Autónoma de Yucatán</p>
-            <p style="margin-top: 10px;"><span class="lang-es">ISSN: En trámite | Periodicidad: Semestral</span><span class="lang-en">ISSN: Pending | Frequency: Biannual</span></p>
-        </div>
+        <!-- El pie legal se muestra siempre fuera de la sección de contacto. -->
     </footer>
+
+    <div class="site-legal-footer" aria-label="Información legal de la revista">
+        <p>© 2026 Facultad de Ingeniería Química · Universidad Autónoma de Yucatán</p>
+        <p>
+            <span class="lang-es">ISSN: En trámite | Periodicidad: Semestral | Licencia: CC BY 4.0</span>
+            <span class="lang-en">ISSN: Pending | Frequency: Biannual | License: CC BY 4.0</span>
+        </p>
+    </div>
 
     <script>
         // 1. CONTROL DE IDIOMA BILINGÜE
@@ -1054,52 +1216,120 @@
         // 4. BASE DE DATOS BILINGÜE
         const issuesData = [
             {
-                edicion: "Vol. 1, No. 1",
-                titulo_es: "Revista de Ciencia e Ingeniería Aplicada De La UADY",
+                volumen: "Vol. 1",
+                numero: "Núm. 1",
+                edicion: "Vol. 1, Núm. 1",
+                titulo_es: "Revista de Ciencia e Ingeniería Aplicada de la UADY",
                 titulo_en: "UADY Journal of Applied Science and Engineering",
-                descripcion_es: "Primera edición de la revista, dedicada a la difusión de trabajos de ciencia, ingeniería y tecnología aplicada. Incluye artículos sobre alimentos, ingeniería de reactores, gestión de almacenes, biorremediación y materiales, orientados a fortalecer el intercambio académico y la divulgación científica de acceso abierto.",
-                descripcion_en: "First issue of the journal, dedicated to the dissemination of applied science, engineering, and technology works. It includes articles on food science, reactor engineering, warehouse management, bioremediation, and materials, aimed at strengthening academic exchange and open-access scientific communication.",
+                descripcion_es: "Primera edición de la revista, dedicada a la difusión de trabajos de ciencia, ingeniería y tecnología aplicada. Incluye artículos sobre procesamiento de alimentos, ingeniería de reactores, gestión de almacenes, biorremediación y ciencia de materiales.",
+                descripcion_en: "First issue of the journal, dedicated to the dissemination of applied science, engineering, and technology works. It includes articles on food processing, reactor engineering, warehouse management, bioremediation, and materials science.",
                 portada: "portada-revista-julio-2026.png",
                 link: "Revista%20Julio%202026%20Num%201%20Vol%201.pdf",
-                articulos: 5
+                articulos: 5,
+                contenido: [
+                    {
+                        titulo: "Evaluación del proceso de esterilización de un alimento a base de filete de pez León (Pterois volitans L.) envasado en frascos de vidrio",
+                        autores: "Canul-Dzul, C.D.; Hoil-Centeno, F.A.; Castañeda-Pérez, E.; Betancur-Ancona, D.; Chel-Guerrero, L.A.; González-Burgos, A.; Gallegos-Tintoré, S.",
+                        paginas: "pp. 3–9"
+                    },
+                    {
+                        titulo: "Dinámica de Fluidos Computacional como Herramienta Didáctica en Ingeniería de Reactores",
+                        autores: "Baz-Rodríguez, S.; Zitlalpopoca-Soriano, A.; Gijón-Arreortúa, I.",
+                        paginas: "pp. 10–17"
+                    },
+                    {
+                        titulo: "Diseño compacto de almacenes y gestión ABC-FIFO para productos de alta rotación",
+                        autores: "Chim-Poot, J.; Martínez-Isidro, P.; G Cantón-Puerto, D.; López-Flores, R.",
+                        paginas: "pp. 18–29"
+                    },
+                    {
+                        titulo: "Biorremediación de contaminantes recalcitrantes a través del uso de consorcios microbianos",
+                        autores: "Sánchez-González, M.; Rojas-Herrera, R.; Ruiz-Espinoza, J.E.; Carrillo-Cocom, L.; Cabañas-Vargas, D.; Segura-Campos, M.; Zepeda-Pedreguera, A.",
+                        paginas: "pp. 30–44"
+                    },
+                    {
+                        titulo: "Efecto del contenido de SiO₂ en las propiedades térmicas de copolímeros BA-VTMOS entrecruzados por sol-gel",
+                        autores: "Sánchez-Pech, J.C.; Juárez-Moreno, J.A.; Ávila-Ortega, A.; Carrera-Figueiras, C.",
+                        paginas: "pp. 45–57"
+                    }
+                ]
             }
         ];
 
         const articlesData = [
             {
-                edicion: "Vol. 1, No. 1",
+                edicion: "Vol. 1, Núm. 1",
+                tipo_es: "Artículo 1 · Artículo Científico",
+                tipo_en: "Article 1 · Research Article",
+                titulo_es: "Evaluación del proceso de esterilización de un alimento a base de filete de pez León (Pterois volitans L.) envasado en frascos de vidrio",
+                titulo_en: "Evaluation of the sterilization process of a food based on lionfish fillet (Pterois volitans L.) packaged in glass jars",
+                autores: "Canul-Dzul, C.D.; Hoil-Centeno, F.A.; Castañeda-Pérez, E.; Betancur-Ancona, D.; Chel-Guerrero, L.A.; González-Burgos, A.; Gallegos-Tintoré, S.",
+                portada: "portada-articulo-pez-leon.png",
+                area_es: "Ingeniería de Alimentos",
+                area_en: "Food Engineering",
+                paginas: "pp. 3–9",
+                doi: "DOI: en trámite",
+                temas: ["pez león", "esterilización", "alimentos", "conservación", "ingeniería de alimentos", "lionfish", "sterilization", "food engineering"],
+                link: "#"
+            },
+            {
+                edicion: "Vol. 1, Núm. 1",
+                tipo_es: "Artículo 2 · Artículo Científico",
+                tipo_en: "Article 2 · Research Article",
                 titulo_es: "Dinámica de Fluidos Computacional como Herramienta Didáctica en Ingeniería de Reactores",
                 titulo_en: "Computational Fluid Dynamics as a Didactic Tool in Reactor Engineering",
                 autores: "Baz-Rodríguez, S.; Zitlalpopoca-Soriano, A.; Gijón-Arreortúa, I.",
-                portada: "portada-articulo-dinamica-fluidos.jpg",
-                temas: ["dinámica de fluidos computacional", "CFD", "fluidos", "reactores", "ingeniería química", "computational fluid dynamics", "reactors", "chemical engineering"],
+                portada: "portada-articulo-cfd-reactores.png",
+                area_es: "Ingeniería de Procesos",
+                area_en: "Process Engineering",
+                paginas: "pp. 10–17",
+                doi: "DOI: en trámite",
+                temas: ["dinámica de fluidos computacional", "CFD", "fluidos", "reactores", "ingeniería de procesos", "computational fluid dynamics", "reactors"],
                 link: "https://zenodo.org/records/20278826"
             },
             {
-                edicion: "Vol. 1, No. 1",
-                titulo_es: "Título del artículo 2",
-                titulo_en: "Article 2 Title",
-                autores: "Autor principal; Coautor; Coautor",
-                portada: "portada-articulo-02.jpg",
-                temas: ["artículo 2", "article 2", "ciencia", "ingeniería"],
+                edicion: "Vol. 1, Núm. 1",
+                tipo_es: "Artículo 3 · Artículo Científico",
+                tipo_en: "Article 3 · Research Article",
+                titulo_es: "Diseño compacto de almacenes y gestión ABC-FIFO para productos de alta rotación",
+                titulo_en: "Compact warehouse design and ABC-FIFO management for high-rotation products",
+                autores: "Chim-Poot, J.; Martínez-Isidro, P.; G Cantón-Puerto, D.; López-Flores, R.",
+                portada: "portada-articulo-almacenes-abc-fifo.png",
+                area_es: "Ingeniería Industrial",
+                area_en: "Industrial Engineering",
+                paginas: "pp. 18–29",
+                doi: "DOI: en trámite",
+                temas: ["almacenes", "ABC", "FIFO", "alta rotación", "ingeniería industrial", "warehouse", "inventory"],
                 link: "#"
             },
             {
-                edicion: "Vol. 1, No. 1",
-                titulo_es: "Título del artículo 3",
-                titulo_en: "Article 3 Title",
-                autores: "Autor principal; Coautor; Coautor",
-                portada: "portada-articulo-03.jpg",
-                temas: ["artículo 3", "article 3", "ciencia", "ingeniería"],
+                edicion: "Vol. 1, Núm. 1",
+                tipo_es: "Artículo 4 · Artículo Científico",
+                tipo_en: "Article 4 · Research Article",
+                titulo_es: "Biorremediación de contaminantes recalcitrantes a través del uso de consorcios microbianos",
+                titulo_en: "Bioremediation of recalcitrant pollutants through the use of microbial consortia",
+                autores: "Sánchez-González, M.; Rojas-Herrera, R.; Ruiz-Espinoza, J.E.; Carrillo-Cocom, L.; Cabañas-Vargas, D.; Segura-Campos, M.; Zepeda-Pedreguera, A.",
+                portada: "portada-articulo-biorremediacion.png",
+                area_es: "Biotecnología y Bioprocesos",
+                area_en: "Biotechnology and Bioprocesses",
+                paginas: "pp. 30–44",
+                doi: "DOI: en trámite",
+                temas: ["biorremediación", "contaminantes", "consorcios microbianos", "biotecnología", "bioprocesos", "bioremediation", "microbial consortia"],
                 link: "#"
             },
             {
-                edicion: "Vol. 1, No. 1",
-                titulo_es: "Título del artículo 4",
-                titulo_en: "Article 4 Title",
-                autores: "Autor principal; Coautor; Coautor",
-                portada: "portada-articulo-04.jpg",
-                temas: ["artículo 4", "article 4", "ciencia", "ingeniería"],
+                edicion: "Vol. 1, Núm. 1",
+                tipo_es: "Artículo 5 · Artículo Científico",
+                tipo_en: "Article 5 · Research Article",
+                titulo_es: "Efecto del contenido de SiO₂ en las propiedades térmicas de copolímeros BA-VTMOS entrecruzados por sol-gel",
+                titulo_en: "Effect of SiO₂ content on the thermal properties of BA-VTMOS copolymers crosslinked by sol-gel",
+                autores: "Sánchez-Pech, J.C.; Juárez-Moreno, J.A.; Ávila-Ortega, A.; Carrera-Figueiras, C.",
+                portada: "portada-articulo-sio2-materiales.png",
+                area_es: "Ciencia de Materiales",
+                area_en: "Materials Science",
+                paginas: "pp. 45–57",
+                doi: "DOI: en trámite",
+                temas: ["SiO2", "sol-gel", "copolímeros", "propiedades térmicas", "materiales", "materials science", "thermal properties"],
                 link: "#"
             }
         ];
@@ -1131,12 +1361,21 @@
             issuesData.forEach(issue => {
                 const title = lang === 'es' ? issue.titulo_es : issue.titulo_en;
                 const desc = lang === 'es' ? issue.descripcion_es : issue.descripcion_en;
-                const issueLabel = lang === 'es' ? issue.edicion : issue.edicion.replace("No.", "Issue");
+                const issueLabel = lang === 'es' ? issue.edicion : issue.edicion.replace('Núm.', 'Issue');
                 const articlesLabel = lang === 'es' ? `${issue.articulos} ${issue.articulos === 1 ? 'artículo publicado' : 'artículos publicados'}` : `${issue.articulos} ${issue.articulos === 1 ? 'published article' : 'published articles'}`;
                 const readText = lang === 'es' ? 'Consultar revista completa' : 'View full issue';
                 const articlesText = lang === 'es' ? 'Ver artículos individuales' : 'View individual articles';
+                const tocTitle = lang === 'es' ? 'Contenido de este número' : 'Contents of this issue';
                 const fallback = lang === 'es' ? 'Portada de revista completa' : 'Full issue cover';
                 const issueLink = issue.link && issue.link !== '#' ? issue.link : '#';
+                const tocItems = (issue.contenido || []).map(item => `
+                    <div class="issue-toc-item">
+                        <div>
+                            <div class="issue-toc-article-title">${item.titulo}</div>
+                            <div class="issue-toc-authors">${item.autores}</div>
+                        </div>
+                        <span class="issue-page-badge">${item.paginas}</span>
+                    </div>`).join('');
 
                 container.innerHTML += `
                     <article class="glass-card publication-featured">
@@ -1144,9 +1383,13 @@
                             <img src="${issue.portada}" alt="${fallback} ${issueLabel}" onerror="this.remove()">
                         </div>
                         <div class="publication-info">
-                            <div class="publication-meta">${issueLabel} · ${articlesLabel}</div>
+                            <div class="issue-meta-line">${issue.volumen} · ${issue.numero} · ${articlesLabel}</div>
                             <h3 class="article-title" style="font-size: 2rem; margin-bottom: 1rem;">${title}</h3>
                             <p class="publication-description">${desc}</p>
+                            <div class="issue-toc">
+                                <div class="issue-toc-title">${tocTitle}</div>
+                                <div class="issue-toc-list">${tocItems}</div>
+                            </div>
                             <div class="publication-actions">
                                 <a href="${issueLink}" class="btn-glow" ${issueLink !== '#' ? 'target="_blank" rel="noopener noreferrer"' : 'aria-disabled="true"'}>${readText}</a>
                                 <button type="button" class="btn-secondary" onclick="switchPublicationView('articlesView')">${articlesText}</button>
@@ -1165,11 +1408,13 @@
                 container.innerHTML = `<p style="color: var(--text-muted); grid-column: 1 / -1; text-align: center; padding: 3rem; background: var(--glass-bg); border-radius: 24px;">${emptyMsg}</p>`;
                 return;
             }
-            const reversedArticles = [...articles].reverse();
-            reversedArticles.forEach((art) => {
+            articles.forEach((art) => {
                 const title = lang === 'es' ? art.titulo_es : art.titulo_en;
                 const btnText = lang === 'es' ? 'Leer artículo PDF →' : 'Read article PDF →';
-                const issueText = lang === 'es' ? art.edicion : art.edicion.replace("No.", "Issue");
+                const issueText = lang === 'es' ? art.edicion : art.edicion.replace("Núm.", "Issue");
+                const typeText = lang === 'es' ? art.tipo_es : art.tipo_en;
+                const areaText = lang === 'es' ? art.area_es : art.area_en;
+                const doiText = lang === 'es' ? art.doi : art.doi.replace('en trámite', 'pending');
                 const fallback = lang === 'es' ? 'Portada del artículo' : 'Article cover';
 
                 container.innerHTML += `
@@ -1177,9 +1422,14 @@
                         <div class="article-cover cover-frame" data-fallback="${fallback}">
                             <img src="${art.portada}" alt="${fallback}: ${title}" onerror="this.remove()">
                         </div>
-                        <div class="issue-badge">${issueText}</div>
+                        <div class="issue-badge">${typeText}</div>
                         <h3 class="article-title">${title}</h3>
                         <div class="article-authors">${art.autores}</div>
+                        <div class="article-card-meta">
+                            <span class="article-tag">${areaText}</span>
+                            <span class="article-tag article-tag-muted">${art.paginas}</span>
+                            <span class="article-tag article-tag-muted">${doiText}</span>
+                        </div>
                         <a href="${art.link || '#'}" class="btn-sleek" ${art.link && art.link !== '#' ? 'target="_blank" rel="noopener noreferrer"' : 'aria-disabled="true"'}>${btnText}</a>
                     </article>`;
             });
