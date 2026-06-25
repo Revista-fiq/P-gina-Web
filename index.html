@@ -571,6 +571,12 @@
         .associate-card .member-name { font-size: 1.25rem; }
         .member-inst { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
 
+        /* --- COMITÉ DE REVISORES --- */
+        .reviewer-card { display: flex; flex-direction: column; align-items: center; }
+        .orcid-badge { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1rem; padding: 0.4rem 0.9rem; border-radius: 30px; background: rgba(166, 206, 57, 0.1); border: 1px solid rgba(166, 206, 57, 0.35); color: var(--text-muted); font-size: 0.82rem; font-weight: 500; text-decoration: none; transition: all 0.3s ease; letter-spacing: 0.3px; }
+        .orcid-badge:hover { background: rgba(166, 206, 57, 0.18); border-color: rgba(166, 206, 57, 0.6); color: var(--heading-main); transform: translateY(-2px); }
+        .orcid-icon { width: 16px; height: 16px; flex-shrink: 0; }
+
         /* --- PESTAÑAS PARA AUTORES --- */
         .inner-tabs-container { border-bottom: 1px solid var(--glass-border); display: flex; gap: 1rem; margin-bottom: 2rem; overflow-x: auto; }
         .inner-tab-btn { background: none; border: none; color: var(--text-muted); font-family: var(--font-body); font-size: 1rem; font-weight: 500; padding: 1rem 1.5rem; cursor: pointer; transition: all 0.3s ease; border-bottom: 2px solid transparent; white-space: nowrap; }
@@ -1019,6 +1025,148 @@
             <div class="associate-card">
                 <div class="member-name">Dra. Paulina Martínez Isidro</div>
                 <div class="member-inst"><span class="lang-es">Universidad Autónoma de Yucatán, México</span><span class="lang-en">Autonomous University of Yucatán, Mexico</span></div>
+            </div>
+        </div>
+
+        <h2 class="section-header" style="margin-top: 3.5rem;">
+            <span class="lang-es">Comité de Revisores</span><span class="lang-en">Reviewers Committee</span>
+        </h2>
+        <p class="section-panel-intro">
+            <span class="lang-es">Investigadores e investigadoras que colaboran en la evaluación por pares de los manuscritos recibidos por RCIA-UADY.</span>
+            <span class="lang-en">Researchers who contribute to the peer review of manuscripts submitted to RCIA-UADY.</span>
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dr. Alberto Ordaz Cortes</div>
+                <div class="member-inst">Instituto Tecnológico de Estudios Superiores de Monterrey · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-6548-710X" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dr. Alberto Ordaz Cortes">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-6548-710X</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dr. Carlos Virgilio Rivera Rodríguez</div>
+                <div class="member-inst">Instituto Nacional de Investigaciones Nucleares · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0001-8729-2998" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dr. Carlos Virgilio Rivera Rodríguez">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0001-8729-2998</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dra. Cintya Valerio Cárdenas</div>
+                <div class="member-inst">Universidad Popular de la Chontalpa · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-1214-8702" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dra. Cintya Valerio Cárdenas">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-1214-8702</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dra. Elizabeth Mas Hernández</div>
+                <div class="member-inst">Universidad Autónoma de Querétaro · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-6585-4571" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dra. Elizabeth Mas Hernández">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-6585-4571</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Mtro. Fredi Israel Mex Arriaga</div>
+                <div class="member-inst">Universidad Tecnológica Metropolitana · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-5727-3347" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Mtro. Fredi Israel Mex Arriaga">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-5727-3347</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dr. Gabriel Rafael Hernández Martínez</div>
+                <div class="member-inst">Universidad Veracruzana · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0001-8587-8637" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dr. Gabriel Rafael Hernández Martínez">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0001-8587-8637</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dr. Gustavo Domínguez Rodríguez</div>
+                <div class="member-inst">Universidad Autónoma de Campeche · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-9434-9937" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dr. Gustavo Domínguez Rodríguez">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-9434-9937</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dr. Jorge Raúl Pérez Gallardo</div>
+                <div class="member-inst">Centro de Investigación en Matemáticas (CIMAT) Unidad Aguascalientes · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-9866-1135" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dr. Jorge Raúl Pérez Gallardo">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-9866-1135</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dra. Judith Zavala Arcos</div>
+                <div class="member-inst">Instituto Tecnológico de Estudios Superiores de Monterrey · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-6116-5816" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dra. Judith Zavala Arcos">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-6116-5816</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dra. María José Rivas Arreola</div>
+                <div class="member-inst">Universidad Iberoamericana Puebla · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0001-8874-3818" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dra. María José Rivas Arreola">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0001-8874-3818</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dra. Maylet Hernández Martínez</div>
+                <div class="member-inst">Instituto Politécnico Nacional, Escuela Nacional de Ciencias Biológicas · México</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-4071-9832" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dra. Maylet Hernández Martínez">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-4071-9832</span>
+                </a>
+            </div>
+            <div class="associate-card reviewer-card">
+                <div class="member-name">Dr. Raúl Esteban Cian</div>
+                <div class="member-inst">Instituto de Tecnología de los Alimentos, Universidad Nacional del Litoral / CONICET · Argentina</div>
+                <a class="orcid-badge" href="https://orcid.org/0000-0002-3635-595X" target="_blank" rel="noopener noreferrer" aria-label="ORCID de Dr. Raúl Esteban Cian">
+                    <svg class="orcid-icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill="#A6CE39" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0z"/>
+                        <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 67.8c-5.6 0-9.9-4.5-9.9-9.9 0-5.5 4.4-9.9 9.9-9.9 5.5 0 9.9 4.4 9.9 9.9 0 5.4-4.4 9.9-9.9 9.9zM189.3 132.2c0-37.4-25.7-53.1-58.2-53.1H99.5v107.1h31.1c32.6 0 58.7-16.2 58.7-54zM114.9 92.5h13.9c25.7 0 41.4 11.4 41.4 39.6 0 25.6-13.8 40-41.7 40h-13.6V92.5z"/>
+                    </svg>
+                    <span>0000-0002-3635-595X</span>
+                </a>
             </div>
         </div>
     </section>
