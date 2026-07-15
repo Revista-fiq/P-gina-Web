@@ -1145,27 +1145,171 @@
             <span class="lang-es">Editorial</span><span class="lang-en">Editorial</span>
         </h2>
 
-        <div class="glass-card" style="max-width: 860px; margin: 0 auto; padding: 3rem 3.5rem; line-height: 1.9; font-size: 1.05rem; color: var(--text-main);">
+        <style>
+            /* ── Editorial: layout de dos columnas con acento vertical dorado ── */
+            .editorial-wrapper {
+                display: grid;
+                grid-template-columns: 4px 1fr;
+                gap: 0 2.8rem;
+                max-width: 820px;
+                margin: 0 auto 3rem;
+            }
+            .editorial-spine {
+                width: 4px;
+                background: var(--gold-gradient);
+                border-radius: 4px;
+                min-height: 100%;
+            }
+            .editorial-body {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+            }
 
-            <p style="margin-bottom: 1.5rem;">La historia de la divulgación científica en la Facultad de Ingeniería Química comenzó en 1984 con la edición impresa de la entonces <strong>Revista de la Facultad de Ingeniería Química</strong>, la cual nació ligada a las licenciaturas de Ingeniería Química Industrial y Químico Industrial. Con el paso del tiempo, nuestra Facultad ha crecido y diversificado su oferta académica para incluir hoy las licenciaturas de Química Aplicada, Ingeniería en Alimentos, Ingeniería en Biotecnología e Ingeniería Industrial Logística.</p>
+            /* Cabecera de la editorial */
+            .editorial-kicker {
+                font-size: 0.72rem;
+                font-weight: 700;
+                letter-spacing: 3.5px;
+                text-transform: uppercase;
+                color: var(--gold-main);
+                margin-bottom: 0.55rem;
+            }
+            .editorial-volume {
+                font-family: var(--font-title-original);
+                font-size: 1.55rem;
+                font-style: italic;
+                color: var(--heading-main);
+                margin-bottom: 2rem;
+                line-height: 1.35;
+                border-bottom: 1px solid var(--glass-border);
+                padding-bottom: 1.5rem;
+            }
 
-            <p style="margin-bottom: 1.5rem;">Para reflejar esta evolución y la pluralidad del conocimiento que hoy generamos, hemos decidido relanzar nuestra publicación bajo el nombre de <strong style="color: var(--gold-main);">Revista de Ciencia e Ingeniería Aplicada de la UADY (RCIA-UADY)</strong>.</p>
+            /* Cuerpo del texto */
+            .editorial-text p {
+                font-size: 1.02rem;
+                line-height: 1.9;
+                color: var(--text-main);
+                margin-bottom: 1.4rem;
+                text-align: justify;
+                hyphens: auto;
+            }
+            .editorial-text p:last-of-type {
+                margin-bottom: 2rem;
+            }
+            .editorial-text p:first-of-type::first-letter {
+                font-family: var(--font-title-original);
+                font-size: 3.8rem;
+                font-weight: bold;
+                float: left;
+                line-height: 0.78;
+                margin: 0.12em 0.1em 0 0;
+                color: var(--gold-main);
+            }
 
-            <p style="margin-bottom: 1.5rem;">Después de haber iniciado nuestra transición al formato digital en 2008, este nuevo nombre formaliza nuestra evolución hacia una plataforma de acceso abierto, diseñada para facilitar la difusión del trabajo científico a toda la comunidad.</p>
+            /* Separador decorativo entre secciones del texto */
+            .editorial-divider {
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                margin: 0.4rem 0 1.6rem;
+                color: var(--gold-main);
+                font-size: 0.65rem;
+                letter-spacing: 4px;
+            }
+            .editorial-divider::before,
+            .editorial-divider::after {
+                content: '';
+                flex: 1;
+                height: 1px;
+                background: var(--glass-border);
+            }
 
-            <p style="margin-bottom: 1.5rem;">Presentamos nuestra primera edición bajo esta nueva identidad, dedicada a la ciencia e ingeniería aplicada. En este número, compartimos investigaciones que abarcan nuestras diversas áreas de especialidad, incluyendo el procesamiento de alimentos, ingeniería de reactores, logística, biorremediación y ciencia de materiales.</p>
+            /* Firma */
+            .editorial-signature {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 0.2rem;
+                padding-top: 1.5rem;
+                border-top: 1px solid var(--glass-border);
+                margin-top: 0.5rem;
+            }
+            .editorial-signature-role {
+                font-size: 0.72rem;
+                font-weight: 700;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: var(--gold-main);
+            }
+            .editorial-signature-name {
+                font-family: var(--font-title-original);
+                font-style: italic;
+                font-size: 1.2rem;
+                color: var(--heading-main);
+            }
 
-            <p style="margin-bottom: 1.5rem;">Celebramos el trabajo de quienes hicieron posible esta publicación, honrando el camino trazado por los impulsores de la primera revista. Agradecemos a autores, editores y equipos de apoyo por su esfuerzo. Gracias a esta constancia colectiva, el legado científico de nuestra institución continúa creciendo y consolidándose con orgullo.</p>
+            /* Responsive */
+            @media (max-width: 640px) {
+                .editorial-wrapper { grid-template-columns: 3px 1fr; gap: 0 1.5rem; }
+                .editorial-text p:first-of-type::first-letter { font-size: 2.8rem; }
+                .editorial-volume { font-size: 1.25rem; }
+            }
+        </style>
 
-            <p style="margin-bottom: 2.5rem;">A estudiantes, docentes e investigadores, les invitamos a ser parte de esta historia que hoy se renueva. Los exhortamos a explorar estos contenidos, a disfrutar de la riqueza de nuestras investigaciones y a compartir este conocimiento, que es, en esencia, el fruto del esfuerzo y la dedicación de toda nuestra comunidad académica. Un espacio que la digitalización nos permite abrir al mundo, invitando a colegas de otras latitudes a formar parte activa de nuestro diálogo científico.</p>
+        <div class="editorial-wrapper">
+            <div class="editorial-spine"></div>
+            <div class="editorial-body">
 
-            <div style="text-align: right;">
-                <div style="display: inline-block; text-align: center;">
-                    <h4 style="color: var(--gold-main); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 0.5rem;"><span class="lang-es">Directora</span><span class="lang-en">Director</span></h4>
-                    <p style="font-family: var(--font-heading); font-style: oblique; font-size: 1.15rem; color: var(--heading-main); font-weight: 500;">M. en C. María Dalmira Rodríguez Martín</p>
+                <p class="editorial-kicker">
+                    <span class="lang-es">Facultad de Ingeniería Química, UADY</span>
+                    <span class="lang-en">Faculty of Chemical Engineering, UADY</span>
+                </p>
+
+                <p class="editorial-volume">
+                    <span class="lang-es">Un nuevo capítulo en la historia de la divulgación científica de nuestra facultad</span>
+                    <span class="lang-en">A new chapter in the history of scientific dissemination at our faculty</span>
+                </p>
+
+                <div class="editorial-text">
+                    <p>
+                        <span class="lang-es">La historia de la divulgación científica en la Facultad de Ingeniería Química comenzó en 1984 con la edición impresa de la entonces <strong>Revista de la Facultad de Ingeniería Química</strong>, la cual nació ligada a las licenciaturas de Ingeniería Química Industrial y Químico Industrial. Con el paso del tiempo, nuestra Facultad ha crecido y diversificado su oferta académica para incluir hoy las licenciaturas de Química Aplicada, Ingeniería en Alimentos, Ingeniería en Biotecnología e Ingeniería Industrial Logística.</span>
+                        <span class="lang-en">The history of scientific dissemination at the Faculty of Chemical Engineering began in 1984 with the print edition of the then-named <strong>Journal of the Faculty of Chemical Engineering</strong>, which was born alongside the undergraduate programs in Industrial Chemical Engineering and Industrial Chemistry. Over time, our Faculty has grown and diversified its academic offerings to include today the programs of Applied Chemistry, Food Engineering, Biotechnology Engineering, and Industrial Logistics Engineering.</span>
+                    </p>
+
+                    <p>
+                        <span class="lang-es">Para reflejar esta evolución y la pluralidad del conocimiento que hoy generamos, hemos decidido relanzar nuestra publicación bajo el nombre de <strong style="color: var(--gold-main);">Revista de Ciencia e Ingeniería Aplicada de la UADY (RCIA-UADY)</strong>. Después de haber iniciado nuestra transición al formato digital en 2008, este nuevo nombre formaliza nuestra evolución hacia una plataforma de acceso abierto, diseñada para facilitar la difusión del trabajo científico a toda la comunidad.</span>
+                        <span class="lang-en">To reflect this evolution and the plurality of knowledge we generate today, we have decided to relaunch our publication under the name <strong style="color: var(--gold-main);">UADY Journal of Applied Science and Engineering (RCIA-UADY)</strong>. After initiating our transition to digital format in 2008, this new name formalizes our evolution toward an open-access platform designed to facilitate the dissemination of scientific work to the entire community.</span>
+                    </p>
+
+                    <p>
+                        <span class="lang-es">Presentamos nuestra primera edición bajo esta nueva identidad, dedicada a la ciencia e ingeniería aplicada. En este número, compartimos investigaciones que abarcan nuestras diversas áreas de especialidad, incluyendo el procesamiento de alimentos, ingeniería de reactores, logística, biorremediación y ciencia de materiales.</span>
+                        <span class="lang-en">We present our first issue under this new identity, dedicated to applied science and engineering. In this issue, we share research spanning our diverse areas of expertise, including food processing, reactor engineering, logistics, bioremediation, and materials science.</span>
+                    </p>
+
+                    <div class="editorial-divider">✦</div>
+
+                    <p>
+                        <span class="lang-es">Celebramos el trabajo de quienes hicieron posible esta publicación, honrando el camino trazado por los impulsores de la primera revista. Agradecemos a autores, editores y equipos de apoyo por su esfuerzo. Gracias a esta constancia colectiva, el legado científico de nuestra institución continúa creciendo y consolidándose con orgullo.</span>
+                        <span class="lang-en">We celebrate the work of those who made this publication possible, honoring the path laid by the founders of the original journal. We thank authors, editors, and support teams for their dedication. Thanks to this collective commitment, the scientific legacy of our institution continues to grow and consolidate with pride.</span>
+                    </p>
+
+                    <p>
+                        <span class="lang-es">A estudiantes, docentes e investigadores, les invitamos a ser parte de esta historia que hoy se renueva. Los exhortamos a explorar estos contenidos, a disfrutar de la riqueza de nuestras investigaciones y a compartir este conocimiento, que es, en esencia, el fruto del esfuerzo y la dedicación de toda nuestra comunidad académica. Un espacio que la digitalización nos permite abrir al mundo, invitando a colegas de otras latitudes a formar parte activa de nuestro diálogo científico.</span>
+                        <span class="lang-en">To students, faculty, and researchers, we invite you to be part of this story as it renews itself today. We encourage you to explore these contents, to enjoy the richness of our research, and to share this knowledge — which is, in essence, the fruit of the effort and dedication of our entire academic community. A space that digitalization allows us to open to the world, inviting colleagues from other latitudes to take an active part in our scientific dialogue.</span>
+                    </p>
                 </div>
-            </div>
 
+                <div class="editorial-signature">
+                    <span class="editorial-signature-role">
+                        <span class="lang-es">Directora</span>
+                        <span class="lang-en">Director</span>
+                    </span>
+                    <span class="editorial-signature-name">M. en C. María Dalmira Rodríguez Martín</span>
+                </div>
+
+            </div>
         </div>
     </section>
 
